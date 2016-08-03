@@ -1,0 +1,195 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 29, 2016, 3:46:48 PM
+    Author     : RAFIS-FRED
+*/
+@font-face {
+    font-family: 'Lato Hairline';
+    src: url('Lato-Hai.ttf');
+}
+@font-face {
+    font-family: 'Lato Light';
+    src: url("Lato-Lig.ttf");
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-Reg.ttf');
+}
+@font-face {
+    font-family: 'Lato Bold';
+    src: url('Lato-Bol.ttf');
+}
+
+*{
+    -on-going-color: #1de9b6;
+    -postponed-color: #7c4dff;
+    -terminated-color: #ec407a;
+    -finished-color: #4dd0e1;
+
+    -button-primary-color: #ec407a;
+    -button-primary-color-dark: #c43766;
+}
+
+/*.root{
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+}*/
+.ripple{
+    -fx-fill: rgba(0, 0, 0, 0.3);
+}
+
+/*MAIN UI STYLES*/
+
+.button{
+    -fx-background-color: -button-primary-color;
+    -fx-background-radius: 14;
+    -fx-text-fill: white;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+}
+
+.sidebar{
+    -fx-background-color: #263238;
+}
+
+.toolbar{
+    -fx-background-color: #eceff1;
+}
+
+/* Main UI Sidebar Options */
+.option{
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-alignment: center-left;
+    -fx-background-position: 16;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-border-color: transparent;
+    -fx-text-fill: #55676e;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}.option:selected{
+    -fx-background-color: #2e3c42;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+}
+
+/*DASH OPTION*/
+.dash-option{
+    -fx-background-image: url(../images/dash-default.png);
+}.dash-option:selected{
+    -fx-background-image: url(../images/dash-active.png);
+}
+
+/*PROJECTS OPTION*/
+.projects-option{
+    -fx-background-image: url(../images/projects-default.png);
+}.projects-option:selected{
+    -fx-background-image: url(../images/projects-active.png);
+}
+
+/*REPORTS OPTION*/
+.reports-option{
+    -fx-background-image: url(../images/reports-default.png);
+}.reports-option:selected{
+    -fx-background-image: url(../images/reports-active.png);
+}
+
+/*SETTINGS OPTION*/
+.settings-option{
+    -fx-background-image: url(../images/settings-default.png);
+}.settings-option:selected{
+    -fx-background-image: url(../images/settings-active.png);
+}
+
+/*SEARCH FIELD*/
+.search-field{
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-radius: 14;
+    -fx-prompt-text-fill: #78909c;
+    -fx-font-size: 14;
+}
+.search-button{
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-image: url(../images/search-default.png);
+    -fx-background-radius: 14;
+}
+.search-button:hover{
+    -fx-background-image: url(../images/search-active.png);
+}.search-button:pressed{
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+/******************************************************************************/
+
+/*DASHBOARD SCREEN*/
+.count-label{
+    -fx-font-family: "Lato Bold";
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 42;
+    -fx-text-fill: #263238;
+}
+.stat-label{
+    /*-fx-font-weight: bold;*/
+    -fx-font-size: 12;
+    -fx-text-fill: #78909c;
+}
+
+/******************************************************************************/
+
+/*PROJECTS SCREEN*/
+.projects-bg{
+    -fx-background-color: #cccccc;
+}
+.menu-panel{
+    -fx-background-color: white;
+}
+.table{
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+}
+.icon-button:hover{
+    -fx-background-color: #eceff1;
+    -fx-background-radius: 16;
+}
+.icon-button:disabled .icon-svg{
+    -fx-fill: rgba(0, 0, 0, 0.4);
+}
+
+/******************************************************************************/
+
+/*ELEVATIONS*/
+.top-z1 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.16), 2, 0, 4, 4);
+}
+.bottom-z1 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.26), 2, 0, 2, 5);
+}
+.top-z2 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.19), 2, 0, 6, 20);
+}
+.bottom-z2 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 8, 17);
+}
+.top-z3 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.19), 2, 0, 17, 50);
+}
+.bottom-z3 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.24), 2, 0, 12, 15);
+}
+.top-z4 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.21), 2, 0, 25, 55);
+}
+.bottom-z4 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.22), 2, 0, 16, 28);
+}
+.top-z5 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.26), 2, 0, 2, 5);
+}
+.bottom-z5 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 27, 24);
+}

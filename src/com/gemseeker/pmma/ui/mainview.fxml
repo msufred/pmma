@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" minHeight="600.0" minWidth="1024.0" prefHeight="600.0" prefWidth="1024.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="230.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <ToggleButton fx:id="toggleDash" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" selected="true" text="                    Dash">
+                     <styleClass>
+                        <String fx:value="option" />
+                        <String fx:value="dash-option" />
+                     </styleClass>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ToggleButton>
+                  <ToggleButton fx:id="toggleProjects" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Projects">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="option" />
+                        <String fx:value="projects-option" />
+                     </styleClass>
+                  </ToggleButton>
+                  <ToggleButton fx:id="toggleReports" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Reports">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="option" />
+                        <String fx:value="reports-option" />
+                     </styleClass>
+                  </ToggleButton>
+                  <ToggleButton fx:id="toggleSettings" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Settings">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="option" />
+                        <String fx:value="settings-option" />
+                     </styleClass>
+                  </ToggleButton>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="48.0" prefWidth="200.0" styleClass="toolbar">
+               <children>
+                  <HBox fx:id="toolbarLeftBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets left="16.0" />
+                     </padding>
+                  </HBox>
+                  <HBox fx:id="toolbarRightBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
+            <StackPane fx:id="stackPane" layoutX="200.0" layoutY="50.0" prefHeight="459.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
