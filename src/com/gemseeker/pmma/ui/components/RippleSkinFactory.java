@@ -1,4 +1,4 @@
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.ui.components;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;

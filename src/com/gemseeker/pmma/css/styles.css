@@ -160,6 +160,27 @@ and open the template in the editor.
     -fx-fill: rgba(0, 0, 0, 0.4);
 }
 
+/*table columns*/
+.project-name-col{
+    
+}
+
+.project-location-col{
+    
+}
+
+.project-started-col{
+    -fx-alignment: CENTER;
+}
+
+.project-to-finish-col{
+    -fx-alignment: CENTER;
+}
+
+.project-status-col{
+    
+}
+
 /******************************************************************************/
 
 /*ELEVATIONS*/

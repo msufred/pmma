@@ -1,4 +1,4 @@
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.ui.components;
 
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 

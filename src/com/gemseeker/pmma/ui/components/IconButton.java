@@ -1,4 +1,4 @@
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.ui.components;
 
 
 import java.io.File;

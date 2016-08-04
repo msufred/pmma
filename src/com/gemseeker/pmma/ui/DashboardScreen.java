@@ -1,6 +1,11 @@
 package com.gemseeker.pmma.ui;
 
 import com.gemseeker.pmma.ControlledScreen;
+import com.gemseeker.pmma.data.Project;
+import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -30,12 +35,13 @@ public class DashboardScreen extends ControlledScreen {
     private TableView summaryTable;
     private AnchorPane summaryChartPane;
     
-    private SummaryNode onGoing = SummaryNode.ON_GOING;
-    private SummaryNode postponed = SummaryNode.POSTPONED;
-    private SummaryNode terminated = SummaryNode.TERMINATED;
-    private SummaryNode finished = SummaryNode.FINISHED;
+    private final SummaryNode onGoing = SummaryNode.ON_GOING;
+    private final SummaryNode postponed = SummaryNode.POSTPONED;
+    private final SummaryNode terminated = SummaryNode.TERMINATED;
+    private final SummaryNode finished = SummaryNode.FINISHED;
     
     public DashboardScreen(){
+        super("dashboard");
         HBox summaryGrid = new HBox();
         summaryGrid.setPrefHeight(84);
         // TODO: set proper value of summary nodes
@@ -82,6 +88,36 @@ public class DashboardScreen extends ControlledScreen {
         return contentView;
     }
 
+    @Override
+    public EventHandler<ActionEvent> getOnLoadEvent() {
+        return evt->{
+            ObservableList<Project> projects = ((MainActivityScreen)screenController).getProjects();
+            int onGoingCount = projects.stream()
+                    .filter(p -> p.getStatus().equalsIgnoreCase(Project.ON_GOING))
+                    .collect(Collectors.toList())
+                    .size();
+            onGoing.countLabel.setText(onGoingCount + "");
+            
+            int postponedCount = projects.stream()
+                    .filter(p -> p.getStatus().equalsIgnoreCase(Project.POSTPONED))
+                    .collect(Collectors.toList())
+                    .size();
+            postponed.countLabel.setText(postponedCount + "");
+            
+            int terminatedCount = projects.stream()
+                    .filter(p -> p.getStatus().equalsIgnoreCase(Project.TERMINATED))
+                    .collect(Collectors.toList())
+                    .size();
+            terminated.countLabel.setText(terminatedCount + "");
+            
+            int finishedCount = projects.stream()
+                    .filter(p -> p.getStatus().equalsIgnoreCase(Project.FINISHED))
+                    .collect(Collectors.toList())
+                    .size();
+            finished.countLabel.setText(finishedCount + "");
+        };
+    }
+
     private static class SummaryNode extends VBox {
         
         static SummaryNode ON_GOING = 
@@ -109,7 +145,7 @@ public class DashboardScreen extends ControlledScreen {
             statLabel.setTranslateY(-8);
             setBackground(new Background(new BackgroundFill(bg, new CornerRadii(0), new Insets(0))));
             setAlignment(Pos.TOP_CENTER);
-            setPadding(new Insets(0, 8, 8, 8));
+//            setPadding(new Insets(0, 8, 8, 8));
             getChildren().addAll(bar, countLabel, statLabel);
             HBox.setHgrow(SummaryNode.this, Priority.ALWAYS);
         }

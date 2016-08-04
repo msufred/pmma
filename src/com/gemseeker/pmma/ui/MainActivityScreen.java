@@ -1,15 +1,29 @@
 package com.gemseeker.pmma.ui;
 
+import com.gemseeker.pmma.ui.components.MaterialButton;
 import com.gemseeker.pmma.ControlledScreen;
 import com.gemseeker.pmma.ScreenController;
+import com.gemseeker.pmma.data.Coordinate;
+import com.gemseeker.pmma.data.DBManager;
+import com.gemseeker.pmma.data.History;
+import com.gemseeker.pmma.data.Location;
+import com.gemseeker.pmma.data.Project;
+import com.gemseeker.pmma.data.ProjectsListChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -43,23 +57,64 @@ public class MainActivityScreen extends ScreenController {
     private MaterialButton signInBtn;
     
     // screens
-    private DashboardScreen dashboardScreen;
-    private ProjectsScreen projectsScreen;
+    private final DashboardScreen dashboardScreen;
+    private final ProjectsScreen projectsScreen;
+    
+    // data
+    private ObservableList<Project> projects = FXCollections.observableArrayList();
+    private ObservableList<Location> locations = FXCollections.observableArrayList();
+    private ObservableList<History> histories = FXCollections.observableArrayList();
+    private ObservableList<Coordinate> coordinates = FXCollections.observableArrayList();
 
     public MainActivityScreen() {
         setScreenContainer(stackPane);
         initComponents();
+
+        projects.setAll(DBManager.getProjects());
+        projects.addListener(new ProjectsListChangeListener());
+        locations.setAll(DBManager.getLocations());
+        histories.setAll(DBManager.getHistories());
+        coordinates.setAll(DBManager.getCoordinates());
+        
+        projects.stream().map((p) -> {
+            locations
+                    .stream()
+                    .filter((l) -> (l.getId().equals(p.getLocationId())))
+                    .forEach((l) -> {
+                        p.setLocation(l);
+                    });
+            return p;
+        }).map((p) -> {
+            List<History> hList = histories
+                    .stream()
+                    .filter((h) -> (h.getProjectId().equals(p.getId())))
+                    .sorted(Comparator.comparing(History::getDateCreated))
+                    .collect(Collectors.toList());
+            p.setHistories(FXCollections.observableArrayList(hList));
+            return p;            
+        }).forEach((p) -> {
+            List<Coordinate> coords = coordinates
+                    .stream()
+                    .filter(c -> (c.getProjectId().equals(p.getId())))
+                    .collect(Collectors.toList());
+            p.setCoordinates(FXCollections.observableArrayList(coords));
+        });
+        
+        // initialize screens
         dashboardScreen = new DashboardScreen();
         projectsScreen = new ProjectsScreen();
         
-        loadScreen("dashboard", dashboardScreen);
-        loadScreen("projects", projectsScreen);
+        loadScreen(dashboardScreen);
+        loadScreen(projectsScreen);
         
         setScreen("dashboard");
     }
     
     @Override
     public void setScreen(String key) {
+        // if screens contains the screen to load and is not the current screen
+        // Note: It is required to load the screen first by invoking loadScreen
+        // method
         if(screens.containsKey(key) && currentScreen != screens.get(key)){
             ControlledScreen screen = screens.get(key);
             Node content = screen.getContentView();
@@ -92,6 +147,14 @@ public class MainActivityScreen extends ScreenController {
             }
             
             anim.getChildren().add(translateTrans);
+            
+            // get a specific onFinish event for the screen to load
+            EventHandler<ActionEvent> action = onFinishEvents.get(key);
+            if(action != null){
+                anim.setOnFinished(action);
+            }else{
+                anim.setOnFinished(null);
+            }
             anim.play();
         }
     }
@@ -167,5 +230,21 @@ public class MainActivityScreen extends ScreenController {
         signInBtn = new MaterialButton();
         signInBtn.setText("Sign In");
         toolbarRightBox.getChildren().add(signInBtn);
+    }
+    
+    public ObservableList<Project> getProjects(){
+        return projects;
+    }
+    
+    public ObservableList<Location> getLocations(){
+        return locations;
+    }
+    
+    public ObservableList<History> getHistories(){
+        return histories;
+    }
+    
+    public ObservableList<Coordinate> getCoordinates(){
+        return coordinates;
     }
 }

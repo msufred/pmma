@@ -1,4 +1,4 @@
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.ui.components;
 
 import javafx.scene.shape.SVGPath;
 import org.w3c.dom.Document;
