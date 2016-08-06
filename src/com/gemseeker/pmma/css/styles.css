@@ -1,8 +1,3 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : Jul 29, 2016, 3:46:48 PM
     Author     : RAFIS-FRED
@@ -34,23 +29,30 @@ and open the template in the editor.
     -button-primary-color-dark: #c43766;
 }
 
-/*.root{
-    -fx-font-family: "Lato";
-    -fx-font-weight: bold;
-}*/
 .ripple{
     -fx-fill: rgba(0, 0, 0, 0.3);
 }
 
-/*MAIN UI STYLES*/
+/*Flat Paper Styles*/
 
-.button{
+.paper-white-z1{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 4, 0, 2, 3);
+}
+
+.paper-pink-button{
     -fx-background-color: -button-primary-color;
     -fx-background-radius: 14;
     -fx-text-fill: white;
     -fx-font-family: "Lato";
     -fx-font-weight: bold;
 }
+
+/*******************************************************************************/
+
+/*MAIN UI STYLES*/
+
 
 .sidebar{
     -fx-background-color: #263238;
@@ -152,6 +154,11 @@ and open the template in the editor.
     -fx-background-color: white;
     -fx-background-radius: 4px;
 }
+
+.icon-svg{
+    -fx-fill: black;
+}
+
 .icon-button:hover{
     -fx-background-color: #eceff1;
     -fx-background-radius: 16;
@@ -182,35 +189,29 @@ and open the template in the editor.
 }
 
 /******************************************************************************/
+ /* Forms */
+ 
+.form-check{
+    -fx-background-image: url(../images/check.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left, center;
+}
 
-/*ELEVATIONS*/
-.top-z1 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.16), 2, 0, 4, 4);
+.form-label-error{
+    -fx-font-family: "Lato";
+    -fx-text-fill:#666666;
 }
-.bottom-z1 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.26), 2, 0, 2, 5);
+
+.form-error{
+    -fx-background-image: url(../images/close.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left, center;
 }
-.top-z2 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.19), 2, 0, 6, 20);
-}
-.bottom-z2 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 8, 17);
-}
-.top-z3 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.19), 2, 0, 17, 50);
-}
-.bottom-z3 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.24), 2, 0, 12, 15);
-}
-.top-z4 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.21), 2, 0, 25, 55);
-}
-.bottom-z4 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.22), 2, 0, 16, 28);
-}
-.top-z5 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.26), 2, 0, 2, 5);
-}
-.bottom-z5 {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 27, 24);
+
+.mug-bg{
+    -fx-background-color: white;
+    -fx-background-image: url(../images/mug.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 400;
+    -fx-background-position: right, center;
 }
