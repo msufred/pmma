@@ -1,12 +1,12 @@
 package com.gemseeker.pmma;
 
 import java.util.HashMap;
+import javafx.animation.Transition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 
 /**
- * <p/>
  * Main screen manager of the application.
  *
  * @author RAFIS-FRED
@@ -15,13 +15,17 @@ public abstract class ScreenController {
 
     protected StackPane container;
     protected HashMap<String, ControlledScreen> screens;
-    protected ScreenBackStack backStack;
     protected HashMap<String, EventHandler<ActionEvent>> onFinishEvents;
+    protected HashMap<String, Transition> transitions;
+    protected ScreenBackStack backStack;
+    
+    private EventHandler<ActionEvent> onSetScreenEvent = null;
 
     public ScreenController() {
         screens = new HashMap<>();
         backStack = new ScreenBackStack();
         onFinishEvents = new HashMap<>();
+        transitions = new HashMap<>();
     }
 
     /**
@@ -29,20 +33,40 @@ public abstract class ScreenController {
      *
      * @param screen
      */
-    protected void loadScreen(ControlledScreen screen) {
+    protected final void loadScreen(ControlledScreen screen) {
         screen.setScreenController(this);
-        onFinishEvents.put(screen.name, screen.getOnLoadEvent());
+        screen.onStart();
         screens.put(screen.name, screen);
     }
 
-    protected void setScreenContainer(StackPane container) {
+    protected final void setScreenContainer(StackPane container) {
         this.container = container;
+    }
+    
+    public StackPane getScreenContainer(){
+        return container;
     }
 
     public abstract void setScreen(String key);
+    
+    public ControlledScreen getScreen(String key){
+        return screens.get(key);
+    }
 
     public abstract ControlledScreen getCurrentScreen();
 
     public abstract ScreenController onBackPressed();
+    
+    public ScreenBackStack getBackStack(){
+        return backStack;
+    }
+    
+    public void setOnSetScreenEvent(EventHandler<ActionEvent> onSetScreen){
+        onSetScreenEvent = onSetScreen;
+    }
+    
+    public EventHandler<ActionEvent> getOnSetScreenEvent(){
+        return onSetScreenEvent;
+    }
 
 }
