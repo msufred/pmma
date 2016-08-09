@@ -57,4 +57,9 @@ public class Coordinate {
     public long[] getCoordinates(){
         return new long[]{latitude, longitude};
     }
+    
+    @Override
+    public String toString(){
+        return "(" + longitude + ", " + latitude + ")";
+    }
 }
