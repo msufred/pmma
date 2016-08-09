@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox id="contentView" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #cccccc;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="40.0" styleClass="menu-panel">
+         <children>
+            <HBox fx:id="toolbarLeft" alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="projectName" styleClass="title-big" text="Project Name" />
+                  <Label fx:id="statusLabel" styleClass="title-big-light" text="(Status)" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+         </children></HBox>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="48.0" prefWidth="200.0" spacing="1.0">
+         <children>
+            <ToggleButton fx:id="overview" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" selected="true" text="Overview">
+               <styleClass>
+                  <String fx:value="reports-tab" />
+                  <String fx:value="dark-tab" />
+               </styleClass>
+            </ToggleButton>
+            <ToggleButton fx:id="updates" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" text="Updates">
+               <styleClass>
+                  <String fx:value="dark-tab" />
+                  <String fx:value="updates-tab" />
+               </styleClass>
+            </ToggleButton>
+            <ToggleButton fx:id="photos" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" text="Photos">
+               <styleClass>
+                  <String fx:value="dark-tab" />
+                  <String fx:value="photos-tab" />
+               </styleClass>
+            </ToggleButton>
+            <ToggleButton fx:id="geotags" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" text="Geotags">
+               <styleClass>
+                  <String fx:value="dark-tab" />
+                  <String fx:value="geotag-tab" />
+               </styleClass>
+            </ToggleButton>
+         </children>
+         <padding>
+            <Insets left="8.0" right="8.0" top="4.0" />
+         </padding>
+      </HBox>
+      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
+   </children>
+   <stylesheets>
+      <URL value="@../css/styles.css" />
+      <URL value="@../css/controls.css" />
+   </stylesheets>
+</VBox>
