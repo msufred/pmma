@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,10 +27,14 @@ public class Main extends Application {
         }else{
             System.out.println("Set to log file!");
             setToLogFile();
+            
+            // TODO: Load or create properties file. Properties file contains
+            // the Settings parameters for the application.
         }
         launch(args);
     }
         
+    // This method sets the log to a file. If the file do not exist, create one.
     private static void setToLogFile(){
         File logdir = new File("logs");
         if (!logdir.exists() || !logdir.isDirectory()) {
@@ -54,9 +60,8 @@ public class Main extends Application {
         MainActivityScreen root = new MainActivityScreen();
         Scene scene = new Scene((Parent) root.getContentView());
         scene.getStylesheets()
-                .add(getClass()
-                .getResource("css/styles.css")
-                .toExternalForm());
+                .addAll(getClass().getResource("css/styles.css").toExternalForm(),
+                        getClass().getResource("css/controls.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
