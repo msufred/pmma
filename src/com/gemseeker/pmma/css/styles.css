@@ -21,19 +21,37 @@
 
 *{
     -on-going-color: #1de9b6;
-    -postponed-color: #7c4dff;
-    -terminated-color: #ec407a;
-    -finished-color: #4dd0e1;
+    -postponed-color: #cccccc;
+    -terminated-color: #55676e;
+    -finished-color: #ec407a;
 
     -button-primary-color: #ec407a;
     -button-primary-color-dark: #c43766;
 }
 
+.elevation-z1{
+    -fx-effect:dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, 1, 1);
+}
+
+.fab{
+    -fx-background-radius: 20;
+    -fx-background-color: white;
+}
+.title-big{
+    -fx-text-fill: #78909c;
+    -fx-font-size: 16;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+}
+.title-big-light{
+    -fx-text-fill: #78909c;
+    -fx-font-size: 16;
+    -fx-font-family: "Lato Light";
+    -fx-font-style: italic;
+}
 .ripple{
     -fx-fill: rgba(0, 0, 0, 0.3);
 }
-
-/*Flat Paper Styles*/
 
 .paper-white-z1{
     -fx-background-color: white;
@@ -63,6 +81,11 @@
 }
 
 /* Main UI Sidebar Options */
+.username-label {
+    -fx-font-size: 12;
+    -fx-text-fill: #78909c;
+}
+
 .option{
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
@@ -74,7 +97,8 @@
     -fx-font-family: "Lato";
     -fx-font-weight: bold;
     -fx-font-size: 14;
-}.option:selected{
+}
+.option:selected{
     -fx-background-color: #2e3c42;
     -fx-text-fill: rgba(255, 255, 255, 0.9);
 }
@@ -186,6 +210,45 @@
 
 .project-status-col{
     
+}
+
+/******************************************************************************/
+/*View Projects*/
+.dark-tab{
+    -fx-background-color: #263238;
+    -fx-background-repeat: no-repeat;
+    -fx-alignment: center;
+    -fx-background-position: 16;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-border-color: transparent;
+    -fx-text-fill: #78909c;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+.dark-tab:selected{
+    -fx-background-color: #3a4850;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+}
+.updates-tab{
+    -fx-background-image: url(../images/updates-default.png);
+}.updates-tab:selected{
+    -fx-background-image: url(../images/updates-active.png);
+}
+.photos-tab{
+    -fx-background-image: url(../images/photos-default.png);
+}.photos-tab:selected{
+    -fx-background-image: url(../images/photos-active.png);
+}
+.geotag-tab{
+    -fx-background-image: url(../images/geotag-default.png);
+}.geotag-tab:selected{
+    -fx-background-image: url(../images/geotag-active.png);
+}
+.reports-tab{
+    -fx-background-image: url(../images/reports-big-default.png);
+}.reports-tab:selected{
+    -fx-background-image: url(../images/reports-big-active.png);
 }
 
 /******************************************************************************/
