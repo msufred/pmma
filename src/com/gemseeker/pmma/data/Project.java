@@ -1,7 +1,7 @@
 package com.gemseeker.pmma.data;
 
 import com.gemseeker.pmma.utils.Utils;
-import java.util.Date;
+import java.time.LocalDate;
 import javafx.collections.ObservableList;
 
 /**
@@ -19,20 +19,24 @@ public class Project {
     private String id;
     private String name;
     private String status;
-    private Date dateCreated;
-    private Date dateToFinish;
+    private LocalDate dateCreated;
+    private LocalDate dateToFinish;
     private String locationId;
+    private String contractorId;
     
     private Location location;
+    private Contractor contractor;
     private ObservableList<History> histories;
     private ObservableList<Coordinate> coordinates;
     
     public Project(){}
     
-    public Project(String id, String name, String locationId, Date created, Date toFinish, String status){
+    public Project(String id, String name, String locationId, String contractorId,
+            LocalDate created, LocalDate toFinish, String status){
         setId(id);
         setName(name);
         setLocationId(locationId);
+        setContractorId(contractorId);
         setDateCreated(created);
         setDateToFinish(toFinish);
         setStatus(status);
@@ -47,7 +51,7 @@ public class Project {
     }
     
     public final void setName(String name){
-        this.name = name;
+        this.name = name == null ? "" : name;
     }
     
     public String getName(){
@@ -62,19 +66,27 @@ public class Project {
         return locationId;
     }
     
-    public final void setDateCreated(Date created){
+    public final void setContractorId(String contractorId){
+        this.contractorId = contractorId == null ? "" : contractorId;
+    }
+    
+    public String getContractorId(){
+        return contractorId;
+    }
+    
+    public final void setDateCreated(LocalDate created){
         this.dateCreated = created;
     }
     
-    public Date getDateCreated(){
+    public LocalDate getDateCreated(){
         return dateCreated;
     }
 
-    public final void setDateToFinish(Date toFinish){
+    public final void setDateToFinish(LocalDate toFinish){
         this.dateToFinish = toFinish;
     }
     
-    public Date getDateToFinish(){
+    public LocalDate getDateToFinish(){
         return dateToFinish;
     }
     
@@ -88,13 +100,7 @@ public class Project {
     
     @Override
     public String toString(){
-        return String.format("%s, %s, %s, %s, %s, %s",
-                id + "",
-                name,
-                locationId,
-                Utils.LOCAL_DATE_FORMAT.format(dateCreated),
-                Utils.LOCAL_DATE_FORMAT.format(dateToFinish),
-                status);
+        return name;
     }
     
     public void setLocation(Location location){
@@ -103,6 +109,14 @@ public class Project {
     
     public Location getLocation(){
         return location;
+    }
+    
+    public void setContractor(Contractor contractor){
+        this.contractor = contractor;
+    }
+    
+    public Contractor getContractor(){
+        return contractor;
     }
     
     public void setHistories(ObservableList<History> histories){
