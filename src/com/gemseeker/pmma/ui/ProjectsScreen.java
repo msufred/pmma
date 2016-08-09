@@ -3,12 +3,14 @@ package com.gemseeker.pmma.ui;
 import com.gemseeker.pmma.ui.components.IconButton;
 import com.gemseeker.pmma.ui.components.MaterialButton;
 import com.gemseeker.pmma.ControlledScreen;
+import com.gemseeker.pmma.data.DBManager;
 import com.gemseeker.pmma.data.Project;
 import com.gemseeker.pmma.utils.Utils;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -16,6 +18,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -27,6 +30,8 @@ import javafx.scene.layout.VBox;
  */
 public class ProjectsScreen extends ControlledScreen {
 
+    public static final String NAME = "projects";
+    
     private AnchorPane contentView;
     private VBox vbox;
     private HBox hbox;
@@ -35,8 +40,14 @@ public class ProjectsScreen extends ControlledScreen {
     private IconButton addBtn, editBtn, deleteBtn;
     private MaterialButton viewProjectBtn;
     
+    private DateTimeFormatter DEFAULT_DATE_FORMAT;
+    
     public ProjectsScreen(){
-        super("projects");
+        super(NAME);
+        initComponents();
+    }
+
+    private void initComponents() {
         contentView = new AnchorPane();
         contentView.getStyleClass().add("projects-bg");
 
@@ -48,7 +59,7 @@ public class ProjectsScreen extends ControlledScreen {
         
         leftBox = new HBox();
         leftBox.setAlignment(Pos.CENTER_LEFT);
-        leftBox.setPadding(new Insets(0, 0, 0, 16));
+        leftBox.setPadding(new Insets(0, 0, 0, 8));
         leftBox.setSpacing(8);
         HBox.setHgrow(leftBox, Priority.ALWAYS);
         
@@ -87,7 +98,7 @@ public class ProjectsScreen extends ControlledScreen {
         rightBox.getChildren().addAll(addBtn, editBtn, deleteBtn);
         
         table = new TableView();
-        table.getStyleClass().addAll("table", "top-z1");
+        table.getStyleClass().addAll("paper-white-z1");
         AnchorPane.setLeftAnchor(table, 8.0);
         AnchorPane.setTopAnchor(table, 8.0);
         AnchorPane.setBottomAnchor(table, 8.0);
@@ -123,7 +134,7 @@ public class ProjectsScreen extends ControlledScreen {
         // date started col
         TableColumn<Project, String> projStartedCol = new TableColumn<>("Date Started");
         projStartedCol.setCellValueFactory((TableColumn.CellDataFeatures<Project, String> param) -> {
-            return new SimpleStringProperty(Utils.LOCAL_DATE_FORMAT.format(param.getValue().getDateCreated()));
+            return new SimpleStringProperty(param.getValue().getDateCreated().format(DEFAULT_DATE_FORMAT));
         });
         projStartedCol.setSortable(false);
         projStartedCol.getStyleClass().add("project-started-col");
@@ -131,7 +142,7 @@ public class ProjectsScreen extends ControlledScreen {
         // deadline col
         TableColumn<Project, String> projToEndCol = new TableColumn<>("Date to Finish");
         projToEndCol.setCellValueFactory((TableColumn.CellDataFeatures<Project, String> param) -> {
-            return new SimpleStringProperty(Utils.LOCAL_DATE_FORMAT.format(param.getValue().getDateToFinish()));
+            return new SimpleStringProperty(param.getValue().getDateToFinish().format(DEFAULT_DATE_FORMAT));
         });
         projToEndCol.setSortable(false);
         projToEndCol.getStyleClass().add("project-to-finish-col");
@@ -164,6 +175,8 @@ public class ProjectsScreen extends ControlledScreen {
                         }else{
                             setStyle("-fx-background-color: -finished-color;");
                         }
+                    }else{
+                        setStyle(null);
                     }
                 }
             };
@@ -180,42 +193,73 @@ public class ProjectsScreen extends ControlledScreen {
                 .addListener((ObservableValue<? extends Number> observable, 
                         Number oldValue, Number newValue) -> {
                     if(newValue.intValue() > -1){
-                        // enable edit and delete buttons
                         editBtn.setDisable(false);
                         deleteBtn.setDisable(false);
-                        // enable view project button
                         viewProjectBtn.setDisable(false);
                     }
-        });
+                });
+        
+        // Create the DateTimeFormatter
+        DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
+        formatterBuilder.appendPattern("MMM dd, yyyy");
+        DEFAULT_DATE_FORMAT = formatterBuilder.toFormatter();
+        
+        setContentView(contentView);
+        
+    } //END INITCOMPONENTS
+
+    @Override
+    public void onStart() {
+        table.setItems(((MainActivityScreen)screenController).getProjects());
     }
 
     @Override
-    public Parent getContentView() {
-        return contentView;
-    }
-
-    @Override
-    public EventHandler<ActionEvent> getOnLoadEvent() {
-        return evt->table.setItems(((MainActivityScreen)screenController).getProjects());
+    public void onResume() {
+        super.onResume();
+        table.getSelectionModel().select(-1);
     }
     
     private void onViewProjectAction(){
         int index = table.getSelectionModel().getSelectedIndex();
         Project p = (Project) table.getItems().get(index);
         if(p != null){
-            System.out.println("View Project action called for " + p.getName());
+            screenController.setOnSetScreenEvent(evt -> {
+                ViewProjectScreen viewScreen = (ViewProjectScreen) screenController.getCurrentScreen();
+                if(viewScreen != null){
+                    viewScreen.setProject(p);
+                }
+            });
+            screenController.getBackStack().push(this);
+            screenController.setScreen(ViewProjectScreen.NAME);
         }
     }
     
     private void onAddAction(){
-        System.out.println("Add Action called");
+        screenController.getBackStack().push(this);
+        screenController.setScreen(AddProjectScreen.NAME);
     }
     
     private void onEditAction(){
         int index = table.getSelectionModel().getSelectedIndex();
         Project p = (Project) table.getItems().get(index);
         if(p != null){
-            System.out.println("Edit action called for " + p.getName());
+            if(((MainActivityScreen) screenController).isAnimated()){
+                screenController.setOnSetScreenEvent(evt -> {
+                    AddProjectScreen editScreen = (AddProjectScreen) screenController.getCurrentScreen();
+                    if(editScreen != null){
+                        editScreen.editProject(p);
+                    }
+                });
+                screenController.getBackStack().push(this);
+                screenController.setScreen(AddProjectScreen.NAME);
+            }else{
+                screenController.getBackStack().push(this);
+                screenController.setScreen(AddProjectScreen.NAME);
+                AddProjectScreen editScreen = (AddProjectScreen) screenController.getCurrentScreen();
+                if(editScreen != null){
+                    editScreen.editProject(p);
+                }
+            }
         }
     }
     
@@ -223,7 +267,13 @@ public class ProjectsScreen extends ControlledScreen {
         int index = table.getSelectionModel().getSelectedIndex();
         Project p = (Project) table.getItems().get(index);
         if(p != null){
-            System.out.println("Delete action called for " + p.getName());
+            DBManager.deleteProject(p.getId());
+            ((MainActivityScreen)screenController).getProjects().remove(p);
+            if(((MainActivityScreen)screenController).getProjects().isEmpty()){
+                editBtn.setDisable(true);
+                deleteBtn.setDisable(true);
+                viewProjectBtn.setDisable(true);
+            }
         }
     }
 }
