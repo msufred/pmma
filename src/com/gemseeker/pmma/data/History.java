@@ -1,7 +1,6 @@
 package com.gemseeker.pmma.data;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Represents an entity from Histories table of the database.
@@ -12,12 +11,12 @@ public class History {
 
     private int id;
     private String projectId;
-    private Date created;
+    private LocalDate created;
     private String notes;
     
     public History(){}
     
-    public History(int id, String projectId, Date created, String notes){
+    public History(int id, String projectId, LocalDate created, String notes){
         setId(id);
         setProjectId(projectId);
         setDate(created);
@@ -40,11 +39,11 @@ public class History {
         return projectId;
     }
     
-    public final void setDate(Date created){
+    public final void setDate(LocalDate created){
         this.created = created;
     }
     
-    public Date getDateCreated(){
+    public LocalDate getDateCreated(){
         return created;
     }
     
@@ -56,4 +55,8 @@ public class History {
         return notes;
     }
     
+    @Override
+    public String toString(){
+        return "History: " + created;
+    }
 }
