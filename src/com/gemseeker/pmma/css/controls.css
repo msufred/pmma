@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 5, 2016, 9:56:37 AM
+    Author     : RAFIS-FRED
+*/
+/*COMBOBOX*/
+.combobox-action{
+    -fx-background-color: white;
+}
+
+/******************************************************************************/
+/*FormLabel*/
+
+.form-check-button{
+    -fx-fill: green;
+    -fx-scale-x: 0.5;
+    -fx-scale-y: 0.5;
+}
