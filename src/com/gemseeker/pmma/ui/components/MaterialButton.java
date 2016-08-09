@@ -37,14 +37,7 @@ public class MaterialButton extends Button {
     private static final Color RIPPLE_COLOR = Color.web("#FFF", 0.3);
 
     public MaterialButton() {
-
-//        textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-//            if (!oldValue.endsWith(newValue.toUpperCase())) {
-//                textProperty().set(newValue.toUpperCase());
-//            }
-//        });
         setPrefHeight(28);
-
     }
 
     @Override
@@ -52,12 +45,12 @@ public class MaterialButton extends Button {
         ButtonSkin buttonSkin = (ButtonSkin) getSkin();
         if (buttonSkin == null) {
             buttonSkin = new ButtonSkin(this);
-//            Circle circleRipple = new Circle(0.1, RIPPLE_COLOR);
-//            buttonSkin.getChildren().add(0, circleRipple);
-            buttonSkin.getChildren().add(0, RippleSkinFactory.createRipple(this, RIPPLE_DURATION, SHADOW_DURATION, RIPPLE_COLOR));
+            Circle circleRipple = new Circle(0.1, RIPPLE_COLOR);
+            createRippleEffect(circleRipple);
+            buttonSkin.getChildren().add(0, circleRipple);
             setSkin(buttonSkin);
 
-//            createRippleEffect(circleRipple);
+            createRippleEffect(circleRipple);
             getStyleClass().add("ripple-button");
         }
         return buttonSkin;
@@ -93,6 +86,8 @@ public class MaterialButton extends Button {
 
     private void createRippleEffect(Circle circleRipple) {
         Rectangle rippleClip = new Rectangle();
+        rippleClip.setArcWidth(16);
+        rippleClip.setArcHeight(16);
         rippleClip.widthProperty().bind(widthProperty());
         rippleClip.heightProperty().bind(heightProperty());
 
