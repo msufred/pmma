@@ -37,6 +37,10 @@ public class ScreenBackStack {
         return null;
     } 
     
+    public void clear(){
+        bottom = top = null;
+    }
+    
     public static class Record {
         Record next, prev;
         ControlledScreen screen;
