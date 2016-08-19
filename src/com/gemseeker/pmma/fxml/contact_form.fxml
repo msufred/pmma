@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox prefWidth="446.0" spacing="8.0">
+               <padding>
+                  <Insets bottom="16.0" left="48.0" right="48.0" top="32.0" />
+               </padding>
+               <children>
+                  <ComboBox fx:id="contactComboBox" editable="true" prefWidth="350.0" promptText="Select or Type Contact" />
+                  <TextField fx:id="contactPersonField" maxWidth="350.0" promptText="Owner, Manager etc." />
+                  <TextField fx:id="addressField" maxWidth="-Infinity" prefWidth="350.0" promptText="Address" />
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label styleClass="title-bar-text" text="Phone Number" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="addPhoneBtn" mnemonicParsing="false" text="+" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <VBox fx:id="phoneBox" alignment="TOP_CENTER" prefWidth="100.0" spacing="8.0">
+                     <children>
+                        <TextField promptText="Phone or Mobile Number" />
+                     </children>
+                  </VBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefWidth="200.0">
+                     <children>
+                        <Label styleClass="title-bar-text" text="Email" />
+                        <HBox alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="addEmailBtn" mnemonicParsing="false" text="+" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <VBox fx:id="emailBox" prefWidth="100.0" spacing="8.0">
+                     <children>
+                        <TextField promptText="Email Address" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" spacing="8.0" styleClass="title-bar">
+         <children>
+            <Button fx:id="backBtn" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Back" />
+            <Button fx:id="finishBtn" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Finish" />
+            <Button fx:id="cancelBtn" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Cancel" />
+         </children>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="36.0" top="16.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

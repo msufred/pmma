@@ -1,12 +1,17 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : Aug 5, 2016, 9:56:37 AM
     Author     : RAFIS-FRED
 */
+
+.paper-pink-flat-button{
+    -fx-background-color: #ec407a;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-font-family: "Lato";
+}
+
+
 /*COMBOBOX*/
 .combobox-action{
     -fx-background-color: white;

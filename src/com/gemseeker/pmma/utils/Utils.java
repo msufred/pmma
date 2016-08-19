@@ -33,5 +33,15 @@ public final class Utils {
      * LOG_DATE_FORMAT is a DateFormat used for log date.
      */
     public static final DateFormat LOG_DATE_FORMAT = new SimpleDateFormat(LOG_DATE_FORMAT_STR);
+    
+    public static final String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+    
+    public static final String PHONE_REGEX_1 = "(\\d-)?(\\d{3}-)?\\d{3}-\\d{4}";
+    
+    public static final String PHONE_REGEX_2 = "\\d{10}";
+    
+    public static final String PHONE_REGEX_3 = "\\d{11}";
+    
+    public static final String PHONE_REGEX_4 = "\\d{3}-\\d{3}-\\d{4}";
 
 }

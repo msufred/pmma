@@ -1,16 +1,16 @@
 package com.gemseeker.pmma;
 
-import com.gemseeker.pmma.ui.MainActivityScreen;
+import com.gemseeker.pmma.controllers.MainActivityScreen;
 import com.gemseeker.pmma.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.Properties;
-import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -62,7 +62,17 @@ public class Main extends Application {
         scene.getStylesheets()
                 .addAll(getClass().getResource("css/styles.css").toExternalForm(),
                         getClass().getResource("css/controls.css").toExternalForm());
+        
         primaryStage.setScene(scene);
+        
+        // If screen monitor's resolution is 1280x768 or less, set application's
+        // window to maximized.
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getBounds();
+        if(bounds.getWidth() <= 1280 || bounds.getHeight() <= 768){
+            primaryStage.setMaximized(true);
+        }
+        
         primaryStage.show();
     }
 

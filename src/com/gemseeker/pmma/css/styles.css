@@ -28,6 +28,70 @@
     -button-primary-color: #ec407a;
     -button-primary-color-dark: #c43766;
 }
+/******************************************************************************
+* Default Style -- There are the default styles that is used by the application
+*******************************************************************************/
+/*.button{
+    -fx-background-color: linear-gradient(#1a91ee, #0880dc);
+}
+.button:hover{
+    -fx-background-color: linear-gradient(#37a1f3, #0880dc);
+}
+.button:pressed{
+    -fx-background-color: #0660a6,
+        linear-gradient(#0775ca, #1a91ee);
+    -fx-background-insets: 0, 1 0 0 0;
+}
+.button .text{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 1, 0, 0, -1);
+    -fx-font-family: "Lato";
+    -fx-fill: white;
+}
+.combo-box{
+    -fx-background-color: rgba(0, 0, 0, 0.2),#ffffff,
+        linear-gradient(#ffffff, #dce3e8);
+    -fx-background-insets: 0, 1, 2;
+}*/
+
+.text-field, .combo-box, .date-picker{
+    -fx-background-radius: 0;
+}
+.table-view{
+    -fx-background-color: white;
+}
+.table-view:focused{
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+}
+.title-bar{
+    -fx-background-color: #dbdbdb,#ffffff,
+        linear-gradient(#ffffff, #eef0f2);
+    -fx-background-insets: 0, 1 0 1 0, 2 0 2 0;
+}
+.title-bar-text{
+    -fx-text-fill: #576a78;
+    -fx-font-weight: bold;
+}
+.toggle-view-left{
+    -fx-background-radius: 4 0 0 4;
+}
+.toggle-view-right{
+    -fx-background-radius: 0 4 4 0;
+}
+.scroll-pane {
+    -fx-background-color: white;
+}
+.viewport{
+    -fx-background-color: white;
+}
+.card{
+    -fx-background-color: #c5c5c5, white;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0, 1;
+}
+/******************************************************************************
+* End of Default Styles
+******************************************************************************/
 
 .elevation-z1{
     -fx-effect:dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, 1, 1);
@@ -61,7 +125,6 @@
 
 .paper-pink-button{
     -fx-background-color: -button-primary-color;
-    -fx-background-radius: 14;
     -fx-text-fill: white;
     -fx-font-family: "Lato";
     -fx-font-weight: bold;
@@ -71,13 +134,38 @@
 
 /*MAIN UI STYLES*/
 
-
 .sidebar{
     -fx-background-color: #263238;
 }
-
+.sidebar-header{
+    -fx-background-color: #ff6b6b;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-family: "Lato";
+    -fx-font-weight: bold;
+}
+.searchbar{
+    -fx-background-color: #363d43;
+    -fx-background-radius: 20;
+    -fx-background-insets: 14 4 14 4;
+}
+.searchbar .text-field{
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-size: 14;
+    -fx-font-family: "Lato";
+}
+.searchbar .button{
+    -fx-background-color: transparent;
+    -fx-background-image: url(../images/search-icon.png);
+    -fx-background-repeat: no-repeat;
+}
+.searchbar .button:hover{
+    -fx-background-color: #454e55;
+    -fx-background-radius: 20;
+}
 .toolbar{
-    -fx-background-color: #eceff1;
+    -fx-background-color: #454e55;
 }
 
 /* Main UI Sidebar Options */
@@ -215,7 +303,7 @@
 /******************************************************************************/
 /*View Projects*/
 .dark-tab{
-    -fx-background-color: #263238;
+    /*-fx-background-color: #263238;*/
     -fx-background-repeat: no-repeat;
     -fx-alignment: center;
     -fx-background-position: 16;
@@ -227,7 +315,7 @@
     -fx-font-size: 14;
 }
 .dark-tab:selected{
-    -fx-background-color: #3a4850;
+    /*-fx-background-color: #3a4850;*/
     -fx-text-fill: rgba(255, 255, 255, 0.9);
 }
 .updates-tab{
@@ -257,7 +345,7 @@
 .form-check{
     -fx-background-image: url(../images/check.png);
     -fx-background-repeat: no-repeat;
-    -fx-background-position: left, center;
+    -fx-background-position: right center;
 }
 
 .form-label-error{
@@ -268,7 +356,7 @@
 .form-error{
     -fx-background-image: url(../images/close.png);
     -fx-background-repeat: no-repeat;
-    -fx-background-position: left, center;
+    -fx-background-position: right center;
 }
 
 .mug-bg{
@@ -277,4 +365,11 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 400;
     -fx-background-position: right, center;
+}
+
+.label-selection{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-font-family: "Lato";
 }

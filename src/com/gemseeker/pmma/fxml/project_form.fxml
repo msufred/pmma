@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="480.0" spacing="8.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label styleClass="title-bar-text" text="Project Code &amp; Name" />
+            <HBox fx:id="codeBox" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="codeField" prefWidth="350.0" promptText="Project Code" />
+               </children>
+            </HBox>
+            <HBox fx:id="nameBox" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="nameField" prefWidth="350.0" promptText="Project Name" />
+               </children>
+            </HBox>
+            <Label styleClass="title-bar-text" text="Project Location" />
+            <ComboBox fx:id="provinceComboBox" editable="true" prefHeight="25.0" prefWidth="350.0" promptText="Province" />
+            <ComboBox fx:id="cityComboBox" editable="true" prefHeight="25.0" prefWidth="350.0" promptText="City" />
+            <ComboBox fx:id="streetComboBox" editable="true" prefHeight="25.0" prefWidth="350.0" promptText="Street" />
+            <Label styleClass="title-bar-text" text="Date Started &amp; Date of Completion" />
+            <HBox spacing="8.0">
+               <children>
+                  <DatePicker fx:id="dateStarted" prefHeight="25.0" prefWidth="169.0" promptText="Started" />
+                  <DatePicker fx:id="dateCompletion" promptText="Completion" />
+               </children>
+            </HBox>
+            <Label styleClass="title-bar-text" text="Project Status" />
+            <ComboBox fx:id="statusComboBox" prefHeight="28.0" prefWidth="352.0" />
+         </children>
+         <padding>
+            <Insets bottom="16.0" left="64.0" right="16.0" top="16.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" spacing="8.0" styleClass="title-bar" VBox.vgrow="NEVER">
+         <children>
+            <Button fx:id="nextBtn" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Next" />
+            <Button fx:id="finishBtn" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Finish" />
+            <Button fx:id="cancelBtn" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" text="Cancel" />
+         </children>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="32.0" top="16.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

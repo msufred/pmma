@@ -86,8 +86,8 @@ public class MaterialButton extends Button {
 
     private void createRippleEffect(Circle circleRipple) {
         Rectangle rippleClip = new Rectangle();
-        rippleClip.setArcWidth(16);
-        rippleClip.setArcHeight(16);
+        rippleClip.setArcWidth(4);
+        rippleClip.setArcHeight(4);
         rippleClip.widthProperty().bind(widthProperty());
         rippleClip.heightProperty().bind(heightProperty());
 
@@ -162,7 +162,7 @@ public class MaterialButton extends Button {
 
         });
     }
-
+    
     public void setRippleColor(Color color) {
         ((Shape) ((SkinBase<?>) getSkin()).getChildren().get(0)).setFill(color);
     }

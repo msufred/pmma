@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0">
+         <children>
+            <VBox fx:id="onGoingBox" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="on-going-count" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="onGoingCountLabel" styleClass="count-label" text="0" />
+                  <Label styleClass="count-subtitle-label" text="On Going" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+            <VBox fx:id="postponedBox" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="postponed-count" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="postponedCountLabel" styleClass="count-label" text="0" />
+                  <Label styleClass="count-subtitle-label" text="Postponed" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+            <VBox fx:id="terminatedBox" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="terminated-count" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="terminatedCountLabel" styleClass="count-label" text="0" />
+                  <Label styleClass="count-subtitle-label" text="Terminated" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+            <VBox fx:id="finishedBox" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="finished-count" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="finishedCountLabel" styleClass="count-label" text="0" />
+                  <Label styleClass="count-subtitle-label" text="Finished" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="48.0" prefWidth="200.0" styleClass="title-bar" VBox.vgrow="NEVER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="title-bar-text" text="History" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ComboBox fx:id="historyComboBox" prefWidth="150.0" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+         </children>
+      </HBox>
+      <TableView fx:id="historyTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="200.0" styleClass="title-bar" VBox.vgrow="NEVER">
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+         <children>
+            <Label styleClass="title-bar-text" text="Overall Status" />
+         </children>
+      </HBox>
+      <HBox prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER" />
+   </children>
+   <stylesheets>
+      <URL value="@../css/dashboard_styles.css" />
+      <URL value="@../css/styles.css" />
+   </stylesheets>
+</VBox>

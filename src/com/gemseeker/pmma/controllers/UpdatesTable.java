@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.controllers;
 
+import com.gemseeker.pmma.ui.*;
 import com.gemseeker.pmma.data.History;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;

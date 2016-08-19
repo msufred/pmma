@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="600.0" minWidth="1024.0" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" minHeight="600.0" minWidth="1024.0" prefHeight="700.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="200.0" prefWidth="230.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,12 +20,12 @@
                   <HBox fx:id="usernameBox" alignment="CENTER" prefHeight="28.0" prefWidth="200.0" spacing="16.0" />
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefWidth="100.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
                <children>
-                  <ToggleButton fx:id="toggleDash" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" selected="true" text="                    Dash">
+                  <ToggleButton fx:id="toggleDash" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" selected="true" text="                    Dash">
                      <styleClass>
                         <String fx:value="option" />
                         <String fx:value="dash-option" />
@@ -34,7 +34,7 @@
                         <Insets />
                      </VBox.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="toggleProjects" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Projects">
+                  <ToggleButton fx:id="toggleProjects" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Projects">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -43,7 +43,8 @@
                         <String fx:value="projects-option" />
                      </styleClass>
                   </ToggleButton>
-                  <ToggleButton fx:id="toggleReports" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Reports">
+                  <ToggleButton fx:id="toggleContacts" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" styleClass="option" text="                    Contacts" />
+                  <ToggleButton fx:id="toggleReports" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Reports">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -52,7 +53,7 @@
                         <String fx:value="reports-option" />
                      </styleClass>
                   </ToggleButton>
-                  <ToggleButton fx:id="toggleSettings" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="                    Settings">
+                  <ToggleButton fx:id="toggleSettings" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Settings">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>

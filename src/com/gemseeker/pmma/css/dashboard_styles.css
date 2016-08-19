@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'Lato Hairline';
+    src: url('Lato-Hai.ttf');
+}
+@font-face {
+    font-family: 'Lato Light';
+    src: url("Lato-Lig.ttf");
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-Reg.ttf');
+}
+@font-face {
+    font-family: 'Lato Bold';
+    src: url('Lato-Bol.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Light';
+    src: url('OpenSans-Light.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Regular';
+    src: url('OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Semibold';
+    src: url('OpenSans-Semibold.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Bold';
+    src: url('OpenSans-Bold.ttf');
+}
+*{
+    -panel-color: #363d43;
+    -panel-color-lighter: #454e55;
+    -panel-color-sidebar: blue;
+    -toolbar-color: #454e55;
+    -label-text-fill: black;
+    
+    -text-title-color: #263238;
+    -text-subtitle-color: #78909c;
+    -text-prompt-color: #78909c;
+    
+    -icon-default-color: white;
+    -icon-active-color: white;
+    
+    -font-small: 14;
+    -font-medium: 16;
+    -font-big: 18;
+    -font-title: 24;   
+}
+.count-label{
+    -fx-font-family: "Lato Bold";
+    -fx-font-size: 42;
+    -fx-text-fill: -text-title-color;
+}
+.count-subtitle-label{
+    -fx-font-famliy: "Lato";
+    -fx-font-size: 12;
+    -fx-text-fill: -text-subtitle-color;
+}
+.on-going-count{
+    -fx-background-color: #1de9b6, #eceff1;
+    -fx-background-insets: 0, 8 0 0 0;
+}
+.postponed-count{
+    -fx-background-color: #7c4dff, #f8fafb;
+    -fx-background-insets: 0, 8 0 0 0;
+}
+.terminated-count{
+    -fx-background-color: #ec407a, #eceff1;
+    -fx-background-insets: 0, 8 0 0 0;
+}
+.finished-count{
+    -fx-background-color: #4dd0e1, #f8fafb;
+    -fx-background-insets: 0, 8 0 0 0;
+}
+.toolbar{
+    -fx-background-color: -panel-color-lighter;
+}
+.label-light{
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-font-size: 14;
+    -fx-font-family: "Lato";
+}

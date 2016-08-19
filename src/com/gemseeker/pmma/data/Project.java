@@ -1,6 +1,5 @@
 package com.gemseeker.pmma.data;
 
-import com.gemseeker.pmma.utils.Utils;
 import java.time.LocalDate;
 import javafx.collections.ObservableList;
 
@@ -19,24 +18,23 @@ public class Project {
     private String id;
     private String name;
     private String status;
-    private LocalDate dateCreated;
-    private LocalDate dateToFinish;
+    private LocalDate dateCreated = null;
+    private LocalDate dateToFinish = null;
     private String locationId;
     private String contractorId;
     
     private Location location;
-    private Contractor contractor;
+    private ObservableList<Contact> contacts;
     private ObservableList<History> histories;
     private ObservableList<Coordinate> coordinates;
     
     public Project(){}
     
-    public Project(String id, String name, String locationId, String contractorId,
+    public Project(String id, String name, String locationId,
             LocalDate created, LocalDate toFinish, String status){
         setId(id);
         setName(name);
         setLocationId(locationId);
-        setContractorId(contractorId);
         setDateCreated(created);
         setDateToFinish(toFinish);
         setStatus(status);
@@ -64,14 +62,6 @@ public class Project {
     
     public String getLocationId(){
         return locationId;
-    }
-    
-    public final void setContractorId(String contractorId){
-        this.contractorId = contractorId == null ? "" : contractorId;
-    }
-    
-    public String getContractorId(){
-        return contractorId;
     }
     
     public final void setDateCreated(LocalDate created){
@@ -111,12 +101,12 @@ public class Project {
         return location;
     }
     
-    public void setContractor(Contractor contractor){
-        this.contractor = contractor;
+    public void addContact(Contact contact){
+        contacts.add(contact);
     }
     
-    public Contractor getContractor(){
-        return contractor;
+    public void setContacts(ObservableList<Contact> contacts){
+        this.contacts = contacts;
     }
     
     public void setHistories(ObservableList<History> histories){

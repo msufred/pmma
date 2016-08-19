@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 
 /**
  *
@@ -20,7 +21,7 @@ public abstract class ControlledScreen {
     protected int mState;
     
     protected ScreenController screenController;
-    protected Node contentView;
+    protected Parent contentView;
     protected final String name;
     private boolean isChild = false;
     
@@ -59,7 +60,7 @@ public abstract class ControlledScreen {
         }
     }
     
-    public final void setContentView(Node content){
+    public final void setContentView(Parent content){
         contentView = content;
     }
     

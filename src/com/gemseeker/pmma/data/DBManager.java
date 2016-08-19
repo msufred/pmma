@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import static com.gemseeker.pmma.data.DBUtil.Columns.*;
 import static com.gemseeker.pmma.data.DBUtil.Tables.*;
+import com.gemseeker.pmma.utils.Utils;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
+import java.util.GregorianCalendar;
 
 /**
  * DBManager, as the name suggests, it manages the database and its operations.
@@ -57,6 +59,7 @@ public class DBManager {
             ps.setString(2, project.getName());
             ps.setString(3, project.getLocationId());
             
+            // check if Date is not null
             LocalDate ls = project.getDateCreated();
             Calendar started = Calendar.getInstance();
             started.set(ls.getYear(), ls.getMonthValue(), ls.getDayOfMonth());
@@ -84,7 +87,9 @@ public class DBManager {
     
     public static final boolean deleteProject(String id){
         try(Connection con = connect()){
-            PreparedStatement ps = con.prepareStatement("DELETE FROM Projects WHERE Code=?;");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM "
+                    + PROJECTS + " WHERE ["
+                    + PROJECT_CODE + "]=?;");
             ps.setString(1, id);
             int updateCount = ps.executeUpdate();
             if(updateCount > 0){
@@ -94,7 +99,7 @@ public class DBManager {
                 return false;
             }
         }catch(SQLException e){
-            System.err.println("Failed  to delete project with id=" + id);
+            System.err.println("Failed  to delete project with ID = " + id);
             System.err.println(e);
             return false;
         }
@@ -105,68 +110,36 @@ public class DBManager {
             PreparedStatement ps = con.prepareStatement("UPDATE "
                     + PROJECTS + " SET ["
                     + PROJECT_NAME + "]=?, [" // (1)
-                    + PROJECT_CONTRACTOR_ID + "]=?, [" // (2)
-                    + PROJECT_LOCATION_ID + "]=?, [" // (3)
-                    + PROJECT_DATE_STARTED + "]=?, [" // (4)
-                    + PROJECT_DATE_TO_FINISH + "]=?, [" // (5)
-                    + PROJECT_STATUS + "]=? WHERE [" // (6)
-                    + PROJECT_CODE + "]=?;"); // (7)
+                    + PROJECT_LOCATION_ID + "]=?, [" // (2)
+                    + PROJECT_DATE_STARTED + "]=?, [" // (3)
+                    + PROJECT_DATE_TO_FINISH + "]=?, [" // (4)
+                    + PROJECT_STATUS + "]=? WHERE [" // (5)
+                    + PROJECT_CODE + "]=?;"); // (6)
             
             ps.setString(1, project.getName()); // (1)
-            ps.setString(2, project.getContractorId()); // (2)
-            ps.setString(3, project.getLocationId()); // (3)
+            ps.setString(2, project.getLocationId()); // (2)
             
             LocalDate ls = project.getDateCreated();
             Calendar started = Calendar.getInstance();
             started.set(ls.getYear(), ls.getMonthValue(), ls.getDayOfMonth());
-            ps.setDate(4, new Date(started.getTime().getTime())); // (4)
+            ps.setDate(3, new Date(started.getTime().getTime())); // (3)
             
             LocalDate lf = project.getDateToFinish();
             Calendar completion = Calendar.getInstance();
             completion.set(lf.getYear(), lf.getMonthValue(), lf.getDayOfMonth());
-            ps.setDate(5, new Date(completion.getTime().getTime())); // (5)
+            ps.setDate(4, new Date(completion.getTime().getTime())); // (4)
             
-            ps.setString(6, project.getStatus()); // (6)
-            ps.setString(7, project.getId()); // (7)
+            ps.setString(5, project.getStatus()); // (5)
+            ps.setString(6, project.getId()); // (6)
             
             int updateCount = ps.executeUpdate();
             
-            if(updateCount > 0){
-                String str = String.format("Updated %d rows of table %s.", updateCount, PROJECTS);
-                System.out.println(str);
-                return true;
-            }else{
-                return false;
-            }
+            String str = String.format("Updated %d rows of table %s.", updateCount, PROJECTS);
+            System.out.println(str);
+            return updateCount > 0;
         }catch(SQLException e){
-            System.err.println("Failed to update project with id=" + project.getId());
+            System.err.println("Failed to update project with ID = " + project.getId());
             System.err.println(e);
-            return false;
-        }
-    }
-
-    public static final boolean addLocation(Location location) {
-        try (Connection conn = connect()) {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO "
-                    + LOCATIONS + " (["
-                    + LOCATION_ID + "], ["
-                    + LOCATION_STREET + "], ["
-                    + LOCATION_CITY + "], ["
-                    + LOCATION_PROVINCE + "])"
-                    + " VALUES (?, ?, ?, ?);");
-
-            ps.setString(1, location.getId());
-            ps.setString(2, location.getStreet());
-            ps.setString(3, location.getCity());
-            ps.setString(4, location.getProvince());
-
-            boolean success = ps.execute();
-            if (success) {
-                System.out.println("Added new Location to database successfully.");
-            }
-            return success;
-        } catch (SQLException e) {
-            System.err.println("Failed to add new location to database.\n\t" + e);
             return false;
         }
     }
@@ -182,18 +155,18 @@ public class DBManager {
                 project.setId(result.getString(PROJECT_CODE));
                 project.setName(result.getString(PROJECT_NAME));
                 project.setLocationId(result.getString(PROJECT_LOCATION_ID));
-                project.setContractorId(result.getString(PROJECT_CONTRACTOR_ID));
                 
                 Date started = result.getDate(PROJECT_DATE_STARTED);
                 Calendar cs = Calendar.getInstance();
                 cs.setTime(started);
-                LocalDate dateStarted = LocalDate.of(cs.get(YEAR), cs.get(MONTH), cs.get(DAY_OF_MONTH));
+                
+                LocalDate dateStarted = LocalDate.of(cs.get(YEAR), cs.get(MONTH) + 1 % 12, cs.get(DAY_OF_MONTH));
                 project.setDateCreated(dateStarted);
 
                 Date completion = result.getDate(PROJECT_DATE_TO_FINISH);
                 Calendar cf = Calendar.getInstance();
                 cf.setTime(completion);
-                LocalDate dateToFinish = LocalDate.of(cf.get(YEAR), cf.get(MONTH), cf.get(DAY_OF_MONTH));
+                LocalDate dateToFinish = LocalDate.of(cf.get(YEAR), cf.get(MONTH) + 1 % 12, cf.get(DAY_OF_MONTH));
                 project.setDateToFinish(dateToFinish);
                 
                 project.setStatus(result.getString(PROJECT_STATUS));
@@ -210,7 +183,8 @@ public class DBManager {
         try (
                 Connection conn = connect();
                 Statement statement = conn.createStatement();) {
-            ResultSet result = statement.executeQuery("SELECT * FROM Histories");
+            ResultSet result = statement.executeQuery("SELECT * FROM "
+                    + HISTORIES);
             while (result.next()) {
                 History history = new History();
                 history.setId(result.getInt(HISTORY_ID));
@@ -228,6 +202,73 @@ public class DBManager {
             System.err.println(e);
         }
         return histories;
+    }
+    
+    public static final boolean addLocation(Location location) {
+        try (Connection conn = connect()) {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO "
+                    + LOCATIONS + " (["
+                    + LOCATION_ID + "], ["
+                    + LOCATION_STREET + "], ["
+                    + LOCATION_CITY + "], ["
+                    + LOCATION_PROVINCE + "])"
+                    + " VALUES (?, ?, ?, ?);");
+
+            ps.setString(1, location.getId());
+            ps.setString(2, location.getStreet());
+            ps.setString(3, location.getCity());
+            ps.setString(4, location.getProvince());
+
+            int updatedRows = ps.executeUpdate();
+            if (updatedRows > 0) {
+                System.out.println("Added new Location to database successfully.");
+                System.out.println(updatedRows + " row(s) affected.");
+            }
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            System.err.println("Failed to add new location to database.\n" + e);
+            return false;
+        }
+    }
+
+    public static final boolean updateLocation(Location location){
+        try(Connection con = connect()){
+            PreparedStatement ps = con.prepareStatement("UPDATE "
+                    + LOCATIONS + " SET ["
+                    + LOCATION_PROVINCE + "]=?, ["
+                    + LOCATION_CITY + "]=?, ["
+                    + LOCATION_STREET + "]=? WHERE ["
+                    + LOCATION_ID + "=?;");
+            ps.setString(1, location.getProvince());
+            ps.setString(2, location.getCity());
+            ps.setString(3, location.getStreet());
+            ps.setString(4, location.getId());
+            
+            int updatedRows = ps.executeUpdate();
+            System.out.println("Update " + updatedRows + " rows of table " + LOCATIONS);
+            return updatedRows > 0;
+        }catch(SQLException e){
+            System.err.println("Failed to update location with ID = " + location.getId());
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public static final boolean deleteLocation(Location location){
+        try( Connection con = connect()){
+            PreparedStatement ps = con.prepareStatement("DELETE * FROM "
+                    + LOCATIONS + " WHERE ["
+                    + LOCATION_ID + "]=" + location.getId() + ";");
+            int affectedRow = ps.executeUpdate();
+            if(affectedRow > 0){
+                System.out.println("Successfully deleted location with ID = " + location.getId());
+            }
+            return affectedRow > 0;
+        }catch(SQLException e){
+            System.err.println("Failed to delete location with ID = " + location.getId());
+            System.err.println(e);
+            return false;
+        }
     }
 
     public static ArrayList<Location> getLocations() {
@@ -270,26 +311,65 @@ public class DBManager {
         return coordinates;
     }
     
-    public static ArrayList<Contractor> getContractors(){
-        ArrayList<Contractor> contractors = new ArrayList<>();
+    public static ArrayList<Contact> getContacts(){
+        ArrayList<Contact> contacts = new ArrayList<>();
         try(
                 Connection con = connect();
                 Statement statement = con.createStatement();
         ){
-            ResultSet rs = statement.executeQuery("SELECT * FROM " + CONTRACTORS);
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + CONTACTS);
             while(rs.next()){
-                Contractor contractor = new Contractor();
-                contractor.setId(rs.getString(CONTRACTOR_ID));
-                contractor.setName(rs.getString(CONTRACTOR_NAME));
-                contractor.setContactPerson(rs.getString(CONTRACTOR_CONTACT_PERSON));
-                contractor.setAddress(rs.getString(CONTRACTOR_ADDRESS));
+                Contact contact = new Contact();
+                contact.setContactId(rs.getString(CONTACT_ID));
+                contact.setName(rs.getString(CONTACT_NAME));
+                contact.setCompany(rs.getString(CONTACT_COMPANY));
+                contact.setAddress(rs.getString(CONTACT_ADDRESS));
+                contacts.add(contact);
             }
         }catch(SQLException e){
             System.err.println(e);
         }
-        return contractors;
+        return contacts;
     }
-
+    
+    public static final Contact getContact(String contactId){
+        try(Connection con = connect(); Statement statement = con.createStatement()){
+            ResultSet rs = statement.executeQuery("SELECT * FROM "
+                    + CONTACTS + " WHERE ["
+                    + CONTACT_ID + "]=" + contactId);
+            while(rs.next()){
+                Contact contact = new Contact();
+                contact.setContactId(rs.getString(CONTACT_ID));
+                contact.setName(rs.getString(CONTACT_NAME));
+                contact.setCompany(rs.getString(CONTACT_COMPANY));
+                contact.setAddress(rs.getString(CONTACT_ADDRESS));
+                return contact;
+            }
+        }catch(SQLException e){
+            System.err.println(e);
+        }
+        return null;
+    }
+    
+    public static final ArrayList<Contact> getContactsOfProject(String id){
+        ArrayList<Contact> contacts = new ArrayList<>();
+        try(
+            Connection con = connect();
+            Statement statement = con.createStatement();
+        ){
+            ResultSet rs = statement.executeQuery("SELECT * FROM "
+                    + PROJECT_CONTACTS + " WHERE ["
+                    + PC_PROJECT_ID + "]= " + id);
+            while(rs.next()){
+                Contact contact = getContact(rs.getString(PC_CONTACT_ID));
+                contacts.add(contact);
+            }
+        }catch(SQLException e){
+            System.err.println(e);
+        }
+        return contacts;
+    }
+    
     public static ArrayList<Project> getProjectByLocation(String locationCode) {
         ArrayList<Project> projects = new ArrayList<>();
         try (

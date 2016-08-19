@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Lato Hairline';
+    src: url('Lato-Hai.ttf');
+}
+@font-face {
+    font-family: 'Lato Light';
+    src: url("Lato-Lig.ttf");
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Lato-Reg.ttf');
+}
+@font-face {
+    font-family: 'Lato Bold';
+    src: url('Lato-Bol.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Light';
+    src: url('OpenSans-Light.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Regular';
+    src: url('OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Semibold';
+    src: url('OpenSans-Semibold.ttf');
+}
+@font-face {
+    font-family: 'OpenSans Bold';
+    src: url('OpenSans-Bold.ttf');
+}
+.toolbar{
+    -fx-background-color: -panel-color-lighter;
+}
+.label-light{
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-font-size: 14;
+    -fx-font-family: "Lato";
+}

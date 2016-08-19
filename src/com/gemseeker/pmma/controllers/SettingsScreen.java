@@ -1,5 +1,6 @@
-package com.gemseeker.pmma.ui;
+package com.gemseeker.pmma.controllers;
 
+import com.gemseeker.pmma.ui.*;
 import com.gemseeker.pmma.ControlledScreen;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;

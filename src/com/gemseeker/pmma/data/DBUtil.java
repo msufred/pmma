@@ -11,10 +11,11 @@ public final class DBUtil {
         public static final String HISTORIES = "Histories";
         public static final String LOCATIONS = "Locations";
         public static final String COORDINATES = "Coordinates";
-        public static final String CONTRACTORS = "Contractors";
+        public static final String CONTACTS = "Contacts";
         public static final String EMAILS = "Emails";
         public static final String PHONE_NUMBERS = "Phone Numbers";
         public static final String MOBILE_NUMBERS = "Mobile Numbers";
+        public static final String PROJECT_CONTACTS = "ProjectContacts";
     }
     
     public static final class Columns {
@@ -45,11 +46,11 @@ public final class DBUtil {
         public static final String COORDINATE_LATITUDE = "Latitude";
         public static final String COORDINATE_LONGITUDE = "Longitude";
         
-        // CONTRACTORS
-        public static final String CONTRACTOR_ID = "ID";
-        public static final String CONTRACTOR_NAME = "Company Name";
-        public static final String CONTRACTOR_ADDRESS = "Address";
-        public static final String CONTRACTOR_CONTACT_PERSON = "Contact Person";
+        // CONTACTS
+        public static final String CONTACT_ID = "ID";
+        public static final String CONTACT_NAME = "Contact Name";
+        public static final String CONTACT_COMPANY = "Company Name";
+        public static final String CONTACT_ADDRESS = "Address";
         
         // EMAILS
         public static final String EMAIL_ID = "ID";
@@ -65,5 +66,10 @@ public final class DBUtil {
         public static final String MOBILE_ID = "ID";
         public static final String MOBILE_USER_ID = "User ID";
         public static final String MOBILE_NUMBER = "Mobile";
+        
+        // PROJECTCONTACTS
+        public static final String PC_ID = "ID";
+        public static final String PC_PROJECT_ID = "Project ID";
+        public static final String PC_CONTACT_ID = "Contact ID";
     }
 }
