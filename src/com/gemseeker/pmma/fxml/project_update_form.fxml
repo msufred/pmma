@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600.0" prefWidth="1200.0" spacing="5.0" styleClass="card" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Remarks" />
+      <VBox spacing="4.0">
+         <children>
+            <TextArea prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="200.0" spacing="4.0">
+               <children>
+                  <Label text="Add Attachment" />
+                  <Button mnemonicParsing="false" onAction="#onAddPhotoAction" styleClass="attachment-button" text="Photos" />
+                  <Button mnemonicParsing="false" onAction="#onAddVideoAction" styleClass="attachment-button" text="Videos" />
+                  <Button mnemonicParsing="false" onAction="#onAddAttachmentAction" styleClass="attachment-button" text="Attachment" />
+               </children>
+            </HBox>
+            <StackPane styleClass="background">
+               <children>
+                  <Label text="No Attachments" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #f0f0f0;" />
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="8.0">
+         <children>
+            <ComboBox fx:id="level" prefWidth="200.0" promptText="Level" HBox.hgrow="ALWAYS" />
+            <ComboBox fx:id="status" prefWidth="200.0" promptText="Status" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <Region prefHeight="20.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="8.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onCancelAction" prefHeight="40.0" prefWidth="160.0" styleClass="cancel-button" text="CANCEL" />
+            <Button mnemonicParsing="false" onAction="#onSaveAction" prefHeight="40.0" prefWidth="160.0" styleClass="ok-button" text="DONE" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+   </padding>
+</VBox>

@@ -31,7 +31,7 @@ public class ScreenLoader {
             return loader.getRoot();
         } catch (IOException e) {
             System.err.println("Failed to load FXML file: " + resource);
-            System.err.println("--> " + e);
+            System.err.println("--> " + e.getLocalizedMessage());
             return null;
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -8,41 +9,61 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="projectStackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="48.0" prefWidth="200.0" styleClass="title-bar">
+      <VBox prefHeight="600.0" prefWidth="900.0">
          <children>
-            <HBox fx:id="leftBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-               </padding>
+            <HBox prefHeight="48.0" prefWidth="200.0" styleClass="title-bar">
                <children>
-                  <Button fx:id="viewBtn" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="View Project" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Add Project" />
-                  <Button fx:id="editBtn" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Edit Project" />
-                  <Button fx:id="deleteBtn" disable="true" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Delete" />
-               </children>
-            </HBox>
-            <HBox fx:id="rightBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="8.0" left="8.0" right="16.0" top="8.0" />
-               </padding>
-               <children>
-                  <HBox alignment="CENTER">
+                  <HBox fx:id="leftBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
                      <children>
-                        <ToggleButton fx:id="toggleCard" mnemonicParsing="false" prefHeight="28.0" styleClass="toggle-view-left" text="Card View" />
-                        <ToggleButton fx:id="toggleTable" mnemonicParsing="false" prefHeight="28.0" selected="true" styleClass="toggle-view-right" text="Table View" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAddAction" prefHeight="28.0" prefWidth="85.0" text="Add">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="add-button" />
+                           </styleClass></Button>
+                        <Button fx:id="editBtn" disable="true" mnemonicParsing="false" onAction="#onEditAction" prefHeight="28.0" prefWidth="90.0" text="Edit">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="edit-button" />
+                           </styleClass></Button>
+                        <Button fx:id="deleteBtn" disable="true" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="28.0" prefWidth="90.0" text="Delete">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="delete-button" />
+                           </styleClass></Button>
+                        <Button fx:id="viewBtn" disable="true" mnemonicParsing="false" onAction="#onViewAction" prefHeight="28.0" prefWidth="90.0" text="View">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="view-button" />
+                           </styleClass></Button>
                      </children>
                   </HBox>
-                  <Label text="View by:" />
-                  <ComboBox fx:id="filter" prefHeight="28.0" prefWidth="150.0" />
+                  <HBox fx:id="rightBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="16.0" top="8.0" />
+                     </padding>
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <ToggleButton fx:id="toggleCard" mnemonicParsing="false" prefHeight="28.0" styleClass="toggle-view-left" text="Card View" />
+                              <ToggleButton fx:id="toggleTable" mnemonicParsing="false" prefHeight="28.0" selected="true" styleClass="toggle-view-right" text="Table View" />
+                           </children>
+                        </HBox>
+                        <Label text="View by:" />
+                        <ComboBox fx:id="filter" prefHeight="28.0" prefWidth="150.0" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
-         </children>
-      </HBox>
-      <StackPane fx:id="projectStackPane" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <children>
-            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="nameCol" prefWidth="75.0" text="Project" />
                   <TableColumn fx:id="locationCol" prefWidth="75.0" text="Location" />
@@ -55,10 +76,10 @@
                </columnResizePolicy>
             </TableView>
          </children>
-      </StackPane>
+         <stylesheets>
+            <URL value="@../css/projects_styles.css" />
+            <URL value="@../css/styles.css" />
+         </stylesheets>
+      </VBox>
    </children>
-   <stylesheets>
-      <URL value="@../css/projects_styles.css" />
-      <URL value="@../css/styles.css" />
-   </stylesheets>
-</VBox>
+</StackPane>

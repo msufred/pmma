@@ -1,6 +1,5 @@
 package com.gemseeker.pmma.controllers;
 
-import com.gemseeker.pmma.ui.*;
 import com.gemseeker.pmma.ControlledScreen;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -22,6 +21,22 @@ public class SettingsScreen extends ControlledScreen {
         box.getChildren().add(new Label("Settings screen is not implemented yet."));
         box.getStyleClass().add("paper-white-z1");
         setContentView(box);
+    }
+
+    @Override
+    public void onStart() {
+    }
+
+    @Override
+    public void onPause() {
+    }
+
+    @Override
+    public void onResume() {
+    }
+
+    @Override
+    public void onFinish() {
     }
 
 }

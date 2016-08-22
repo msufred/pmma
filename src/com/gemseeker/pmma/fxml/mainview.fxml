@@ -10,81 +10,66 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="600.0" minWidth="1024.0" prefHeight="700.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="200.0" prefWidth="230.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="220.0" prefWidth="100.0" spacing="16.0">
+            <StackPane alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="105.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fx:id="imageView" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" />
-                  <HBox fx:id="usernameBox" alignment="CENTER" prefHeight="28.0" prefWidth="200.0" spacing="16.0" />
+                  <VBox prefWidth="100.0">
+                     <VBox.margin>
+                        <Insets top="60.0" />
+                     </VBox.margin>
+                     <children>
+                        <Region prefHeight="60.0" prefWidth="200.0" />
+                        <ToggleButton fx:id="toggleDash" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="105.0" selected="true" text="Dash" textAlignment="CENTER">
+                           <styleClass>
+                              <String fx:value="option" />
+                              <String fx:value="dash-option" />
+                           </styleClass>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleProjects" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="105.0" text="Projects" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="option" />
+                              <String fx:value="projects-option" />
+                           </styleClass>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleContacts" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="105.0" styleClass="option" text="Contacts" textAlignment="CENTER" />
+                        <ToggleButton fx:id="toggleReports" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="105.0" text="Reports" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="option" />
+                              <String fx:value="reports-option" />
+                           </styleClass>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleSettings" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="105.0" text="Settings" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="option" />
+                              <String fx:value="settings-option" />
+                           </styleClass>
+                        </ToggleButton>
+                     </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                  </VBox>
+                  <Rectangle fx:id="rectangle" fill="#ff5252" height="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" translateY="60.0" width="5.0" />
                </children>
-            </VBox>
-            <VBox prefWidth="100.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <children>
-                  <ToggleButton fx:id="toggleDash" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" selected="true" text="                    Dash">
-                     <styleClass>
-                        <String fx:value="option" />
-                        <String fx:value="dash-option" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ToggleButton>
-                  <ToggleButton fx:id="toggleProjects" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Projects">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="option" />
-                        <String fx:value="projects-option" />
-                     </styleClass>
-                  </ToggleButton>
-                  <ToggleButton fx:id="toggleContacts" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" styleClass="option" text="                    Contacts" />
-                  <ToggleButton fx:id="toggleReports" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Reports">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="option" />
-                        <String fx:value="reports-option" />
-                     </styleClass>
-                  </ToggleButton>
-                  <ToggleButton fx:id="toggleSettings" mnemonicParsing="false" prefHeight="48.0" prefWidth="230.0" text="                    Settings">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="option" />
-                        <String fx:value="settings-option" />
-                     </styleClass>
-                  </ToggleButton>
-               </children>
-            </VBox>
+            </StackPane>
+            <StackPane fx:id="stackPane" prefHeight="459.0" prefWidth="794.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" HBox.hgrow="ALWAYS" />
          </children>
-      </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox prefHeight="48.0" prefWidth="200.0" styleClass="toolbar">
-               <children>
-                  <HBox fx:id="toolbarLeftBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets left="16.0" />
-                     </padding>
-                  </HBox>
-                  <HBox fx:id="toolbarRightBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets right="16.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </HBox>
-            <StackPane fx:id="stackPane" layoutX="200.0" layoutY="50.0" prefHeight="459.0" prefWidth="794.0" style="-fx-background-color: #eceff1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" VBox.vgrow="ALWAYS" />
-         </children>
-      </VBox>
+      </HBox>
    </children>
    <stylesheets>
       <URL value="@../css/styles.css" />

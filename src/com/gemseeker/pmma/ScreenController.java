@@ -16,12 +16,8 @@ public abstract class ScreenController {
 
     private StackPane container;
     private HashMap<String, ControlledScreen> screens;
-    private HashMap<String, EventHandler<ActionEvent>> onFinishEvents;
-    private HashMap<String, Transition> transitions;
     private ScreenBackStack backStack;
     private ControlledScreen currentScreen;
-    
-    private EventHandler<ActionEvent> onSetScreenEvent = null;
 
     public ScreenController() {
         this(null);
@@ -31,8 +27,6 @@ public abstract class ScreenController {
         this.container = container;
         screens = new HashMap<>();
         backStack = new ScreenBackStack();
-        onFinishEvents = new HashMap<>();
-        transitions = new HashMap<>();
     }
     
     /**
@@ -61,13 +55,15 @@ public abstract class ScreenController {
     }
 
     public void setScreen(String key){
-        if(!screens.containsKey(key)){
+        ControlledScreen screen = screens.get(key);
+        if(screen == null || currentScreen == screen){
             return;
         }
-        ControlledScreen screen = screens.get(key);
+        
         Node view = screen.contentView;
         if(currentScreen != null){
-            container.getChildren().remove(0);
+            currentScreen.doOnPause();
+            container.getChildren().remove(currentScreen.contentView);
         }
         container.getChildren().add(0, view);
         screen.onResume();
@@ -93,13 +89,4 @@ public abstract class ScreenController {
     public ScreenBackStack getBackStack(){
         return backStack;
     }
-    
-    public void setOnSetScreenEvent(EventHandler<ActionEvent> onSetScreen){
-        onSetScreenEvent = onSetScreen;
-    }
-    
-    public EventHandler<ActionEvent> getOnSetScreenEvent(){
-        return onSetScreenEvent;
-    }
-    
 }

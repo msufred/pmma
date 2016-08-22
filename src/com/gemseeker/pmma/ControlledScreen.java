@@ -68,21 +68,33 @@ public abstract class ControlledScreen {
         return contentView;
     }
     
-    public void onStart(){
+    public final void doOnStart(){
+        onStart();
         mState = STARTED;
     }
     
-    public void onPause(){
+    public abstract void onStart();
+    
+    public final void doOnPause(){
+        onPause();
         mState = PAUSED;
     }
     
-    public void onResume(){
+    public abstract void onPause();
+    
+    public final void doOnResume(){
+        onResume();
         mState = RESUMED;
     }
     
-    public void onFinish(){
+    public abstract void onResume();
+    
+    public final void doOnFinish(){
+        onFinish();
         mState = FINISHED;
     }
+    
+    public abstract void onFinish();
     
     public int getState(){
         return mState;

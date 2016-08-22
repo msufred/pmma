@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import static com.gemseeker.pmma.data.DBUtil.Columns.*;
 import static com.gemseeker.pmma.data.DBUtil.Tables.*;
-import com.gemseeker.pmma.utils.Utils;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +16,6 @@ import java.util.Calendar;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
-import java.util.GregorianCalendar;
 
 /**
  * DBManager, as the name suggests, it manages the database and its operations.
@@ -55,9 +53,9 @@ public class DBManager {
                     + PROJECT_STATUS + "])" // (6)
                     + " VALUES (?, ?, ?, ?, ?, ?);");
             
-            ps.setString(1, project.getId());
-            ps.setString(2, project.getName());
-            ps.setString(3, project.getLocationId());
+            ps.setString(1, project.getIdValue());
+            ps.setString(2, project.getNameValue());
+            ps.setString(3, project.getLocationIdValue());
             
             // check if Date is not null
             LocalDate ls = project.getDateCreated();
@@ -70,7 +68,7 @@ public class DBManager {
             completion.set(lc.getYear(), lc.getMonthValue(), lc.getDayOfMonth());
             ps.setDate(5, new Date(completion.getTime().getTime()));
             
-            ps.setString(6, project.getStatus());
+            ps.setString(6, project.getStatusValue());
             
             int updateCount = ps.executeUpdate();
             if (updateCount > 0) {
@@ -116,8 +114,8 @@ public class DBManager {
                     + PROJECT_STATUS + "]=? WHERE [" // (5)
                     + PROJECT_CODE + "]=?;"); // (6)
             
-            ps.setString(1, project.getName()); // (1)
-            ps.setString(2, project.getLocationId()); // (2)
+            ps.setString(1, project.getNameValue()); // (1)
+            ps.setString(2, project.getLocationIdValue()); // (2)
             
             LocalDate ls = project.getDateCreated();
             Calendar started = Calendar.getInstance();
@@ -129,8 +127,8 @@ public class DBManager {
             completion.set(lf.getYear(), lf.getMonthValue(), lf.getDayOfMonth());
             ps.setDate(4, new Date(completion.getTime().getTime())); // (4)
             
-            ps.setString(5, project.getStatus()); // (5)
-            ps.setString(6, project.getId()); // (6)
+            ps.setString(5, project.getStatusValue()); // (5)
+            ps.setString(6, project.getIdValue()); // (6)
             
             int updateCount = ps.executeUpdate();
             
@@ -351,18 +349,16 @@ public class DBManager {
         return null;
     }
     
-    public static final ArrayList<Contact> getContactsOfProject(String id){
-        ArrayList<Contact> contacts = new ArrayList<>();
-        try(
-            Connection con = connect();
-            Statement statement = con.createStatement();
-        ){
-            ResultSet rs = statement.executeQuery("SELECT * FROM "
-                    + PROJECT_CONTACTS + " WHERE ["
-                    + PC_PROJECT_ID + "]= " + id);
+    public static final ArrayList<ProjectContact> getProjectContacts(){
+        ArrayList<ProjectContact> contacts = new ArrayList<>();
+        try(Connection con = connect(); Statement statement = con.createStatement()){
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + PROJECT_CONTACTS);
             while(rs.next()){
-                Contact contact = getContact(rs.getString(PC_CONTACT_ID));
-                contacts.add(contact);
+                ProjectContact pc = new ProjectContact();
+                pc.setId(rs.getInt(PC_ID));
+                pc.setProjectId(rs.getString(PC_PROJECT_ID));
+                pc.setContactId(rs.getString(PC_CONTACT_ID));
+                contacts.add(pc);
             }
         }catch(SQLException e){
             System.err.println(e);

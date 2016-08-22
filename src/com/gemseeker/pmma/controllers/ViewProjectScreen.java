@@ -1,18 +1,37 @@
 package com.gemseeker.pmma.controllers;
 
 import com.gemseeker.pmma.ControlledScreen;
-import com.gemseeker.pmma.ScreenController;
+import com.gemseeker.pmma.animations.EasingMode;
+import com.gemseeker.pmma.animations.ExponentialInterpolator;
+import com.gemseeker.pmma.data.Contact;
 import com.gemseeker.pmma.data.Project;
+import com.gemseeker.pmma.fxml.ScreenLoader;
 import com.gemseeker.pmma.ui.components.IconButton;
-import com.gemseeker.pmma.ui.components.MaterialButton;
+import java.util.HashMap;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.Timeline;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 /**
  *
@@ -21,82 +40,177 @@ import javafx.scene.shape.Circle;
 public class ViewProjectScreen extends ControlledScreen {
 
     public static final String NAME = "viewproject";
+    private final HashMap<String, TabScreen> screens = new HashMap<>();
+    static final Duration TRANSITION_DURATION = new Duration(400);
+    static final Interpolator IN_INTERPOLATOR = new ExponentialInterpolator(EasingMode.EASE_IN);
+    static final Interpolator OUT_INTERPOLATOR = new ExponentialInterpolator(EasingMode.EASE_OUT);
+    static final double SCREEN_OFFSET = 8.0;
 
-    @FXML HBox toolbarLeft;
+    @FXML Circle circle;
+    @FXML ToggleButton toggleDetails;
+    @FXML ToggleButton toggleUpdates;
+    @FXML ToggleButton togglePhotos;
+    @FXML ToggleButton toggleMaps;
+    @FXML Rectangle tabIndicator;
     @FXML Label projectName;
     @FXML Label statusLabel;
-    @FXML HBox optionsPane;
     @FXML StackPane stackPane;
-
+    @FXML StackPane container;
+    @FXML IconButton backBtn;
+    private ToggleGroup toggleGroup;
+    
+    private DetailsTab detailsTab;
+    private UpdatesTab updatesTab;
+    private PhotosTab photosTab;
+    private MapsTab mapsTab;
+    
+    private TabScreen current = null;
+    
     private Project project;
-    private Circle circle;
-    private final ViewScreenController viewController;
+    private Contact contact;
+    
+    private ProgressIndicator progressIndicator;
+    private boolean hasPendingOperation = false;
 
     public ViewProjectScreen() {
         super(NAME);
         initComponents();
-        viewController = new ViewScreenController(stackPane);
-        // load screens to map here
-        
-        // set default scree here
+        loadCreateTabViews();
+//        setScreen(detailsTab.getName());
         setAsChild(true);
     }
 
     private void initComponents() {
-        setContentView(getClass().getResource("view_project.fxml"));
-
-        // status icon
-        circle = new Circle(10);
-        toolbarLeft.getChildren().add(0, circle);
+        setContentView(ScreenLoader.loadScreen(this, "view_project.fxml"));
+        toggleGroup = new ToggleGroup();
+        toggleGroup.getToggles().addAll(
+                toggleDetails, toggleUpdates, togglePhotos, toggleMaps
+        );
+        toggleGroup.getToggles().stream().forEach((tb) -> {
+            ((ToggleButton)tb).addEventFilter(MouseEvent.MOUSE_PRESSED, evt -> {
+                if (tb.isSelected() || hasPendingOperation) {
+                    evt.consume();
+                }
+            });
+        });
+        toggleGroup.selectedToggleProperty()
+                .addListener((ObservableValue<? extends Toggle> ov, Toggle old, Toggle newValue) -> {
+            if(newValue.equals(toggleDetails)){
+                setScreen(DetailsTab.NAME);
+            }else if(newValue.equals(toggleUpdates)){
+                setScreen(UpdatesTab.NAME);
+            }else if(newValue.equals(togglePhotos)){
+                setScreen(PhotosTab.NAME);
+            }else{
+                setScreen(MapsTab.NAME);
+            }
+            moveIndicator(((ToggleButton)newValue).getBoundsInParent().getMinX());
+        });
         
-        // back icon button
-        IconButton backBtn = new IconButton();
+        // add back button
         backBtn.setIcon(getClass().getResourceAsStream("back_arrow.svg"));
-        backBtn.getStyleClass().add("icon-button");
         backBtn.setOnAction(evt -> onBackAction());
-        toolbarLeft.getChildren().add(0, backBtn);
         
-        MaterialButton detailsBtn = new MaterialButton();
-        detailsBtn.setText("Details");
-        detailsBtn.getStyleClass().add("paper-pink-flat-button");
-        detailsBtn.setPrefSize(140, 40);
-        detailsBtn.setOnAction(evt -> onDetailsAction());
-        HBox.setHgrow(detailsBtn, Priority.ALWAYS);
-        optionsPane.getChildren().add(detailsBtn);
+        progressIndicator = new ProgressIndicator();
+        progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        progressIndicator.setMaxSize(48, 48);
+    }
+    
+    private void loadCreateTabViews(){
+        detailsTab = new DetailsTab();
+        updatesTab = new UpdatesTab();
+        photosTab = new PhotosTab();
+        mapsTab = new MapsTab();
         
-        MaterialButton histBtn = new MaterialButton();
-        histBtn.setText("Histories");
-        histBtn.getStyleClass().add("paper-pink-flat-button");
-        histBtn.setPrefSize(140, 40);
-        histBtn.setOnAction(evt -> onHistoriesAction());
-        HBox.setHgrow(histBtn, Priority.ALWAYS);
-        optionsPane.getChildren().add(histBtn);
+        loadScreen(detailsTab);
+        loadScreen(updatesTab);
+        loadScreen(photosTab);
+        loadScreen(mapsTab);
+    }
+    
+    private void loadScreen(TabScreen screen){
+        screen.setParentScreen(this);
+        screen.onStart();
+        screens.put(screen.mName, screen);
+    }
+    
+    private void setScreen(String key){
+        TabScreen screen = screens.get(key);
+        if(screen == null){
+            return;
+        }
         
-        MaterialButton photosBtn = new MaterialButton();
-        photosBtn.setText("Photos");
-        photosBtn.setPrefSize(140, 40);
-        photosBtn.getStyleClass().add("paper-pink-flat-button");
-        photosBtn.setOnAction(evt -> onPhotosAction());
-        HBox.setHgrow(photosBtn, Priority.ALWAYS);
-        optionsPane.getChildren().add(photosBtn);
+        if(current != null && current == screen){
+            screen.onResume();
+            return;
+        }
         
-        MaterialButton geoBtn = new MaterialButton();
-        geoBtn.setText("Geotags");
-        geoBtn.setPrefSize(140, 40);
-        geoBtn.getStyleClass().add("paper-pink-flat-button");
-        geoBtn.setOnAction(evt -> onGeotagAction());
-        HBox.setHgrow(geoBtn, Priority.ALWAYS);
-        optionsPane.getChildren().add(geoBtn);
+        Node content = screen.mContentView;
+        
+        if(current == null){
+            stackPane.getChildren().add(content);
+            screen.onResume();
+            current = screen;
+            return;
+        }
+        
+        // block calls, processes and input events
+        hasPendingOperation = true;
+        
+        Transition transition;
+        // set initial opacity and position
+        content.setOpacity(1);
+        content.setTranslateY(stackPane.getHeight());
+
+        // translate screen to load upwards
+        TranslateTransition trans = new TranslateTransition(TRANSITION_DURATION, content);
+        trans.setToY(0);
+        trans.setInterpolator(OUT_INTERPOLATOR);
+
+        // fade out the current screen
+        FadeTransition fadeOut = new FadeTransition(new Duration(200), current.mContentView);
+        fadeOut.setToValue(0.0);
+        fadeOut.setInterpolator(OUT_INTERPOLATOR);
+
+        transition = new ParallelTransition();
+        ((ParallelTransition) transition).getChildren().addAll(trans, fadeOut);
+
+        // add the screen to load above the current screen
+        stackPane.getChildren().add(content);
+        transition.setOnFinished(evt -> {
+            current.onPause();
+            stackPane.getChildren().remove(current.mContentView);
+            screen.onResume();
+            current = screen;
+            hasPendingOperation = false;
+        });
+        transition.play();
+    }
+    
+    private void moveIndicator(double to){
+        Timeline anim = new Timeline(new KeyFrame(TRANSITION_DURATION,
+                new KeyValue(tabIndicator.translateXProperty(), to, OUT_INTERPOLATOR)
+        ));
+        anim.play();
     }
     
     public void setProject(Project project) {
-        projectName.setText(project.getName());
-        initStatusIcon(project.getStatus());
+        projectName.setText(project.getNameValue());
+        initStatusIcon(project.getStatusValue());
+        
+        detailsTab.setProject(project);
+        updatesTab.setProject(project);
+        photosTab.setProject(project);
+        mapsTab.setProject(project);
+        
         this.project = project;
+    }
+    
+    public Project getProject(){
+        return project;
     }
 
     private void onBackAction() {
-        screenController.setOnSetScreenEvent(null);
         ControlledScreen screen = screenController.getBackStack().pull();
         screenController.setScreen(screen.getName());
     }
@@ -114,58 +228,92 @@ public class ViewProjectScreen extends ControlledScreen {
         statusLabel.setText(String.format("(%s)", status));
     }
     
-    private void onDetailsAction(){
-        
+    private void loadDetails(){
+        System.out.println("loading details...");
     }
     
-    public void onHistoriesAction(){
-        
+    private void loadUpdates(){
+        System.out.println("loading updates...");
     }
     
-    public void onPhotosAction(){
-        
+    private void loadPhotos(){
+        System.out.println("loading photos...");
     }
     
-    public void onGeotagAction(){
-        
+    private void loadMaps(){
+        System.out.println("loading maps...");
     }
     
-    /***************************************************************************
-     * Custom ScreenController for ViewProjectScreen                           *
-     ***************************************************************************/
-    private class ViewScreenController extends ScreenController {
+    @Override
+    public void onStart() {
+    }
 
-        ControlledScreen current;
-        boolean animated;
-        StackPane stackPane;
+    @Override
+    public void onPause() {
         
-        public ViewScreenController(StackPane container){
-            current = null;
-            this.stackPane = container;
-        }
-        
-        @Override
-        public void setScreen(String key) {
-            // set animated value here, the settings might have changed
-            animated = ((MainActivityScreen) screenController).isAnimated();
-            ControlledScreen screen = getScreens().get(key);
-            if(screen  == null){
-                return;
-            }
-            Node content = screen.getContentView();
-            if(getScreenContainer().getChildren().isEmpty()){
-                getScreenContainer().getChildren().add(content);
-            }else{
-                getScreenContainer().getChildren().remove(0);
-                getScreenContainer().getChildren().add(0, content);
-            }
-            current = screen;
-        }
+    }
 
-        @Override
-        public ControlledScreen getCurrentScreen() {
-            return current;
+    @Override
+    public void onResume() {
+        if(current == null){
+            setScreen(detailsTab.mName);
+        } else if(current == detailsTab){
+            detailsTab.onResume();
+        } else{
+            toggleGroup.selectToggle(toggleDetails);
+        }
+    }
+
+    @Override
+    public void onFinish() {
+        
+    }
+    
+    public static abstract class TabScreen {
+        
+        public static final int CREATED = 0;
+        public static final int STARTED = 1;
+        public static final int PAUSED = 2;
+        public static final int RESUMED = 3;
+        public static final int FINISHED = 4;
+        
+        protected ViewProjectScreen parentScreen;
+        protected int mState;
+        protected String mName;
+        protected Node mContentView;
+        protected Project project;
+        
+        public TabScreen(String name){
+            mName = name;
+            mState = CREATED;
         }
         
+        public int getState(){
+            return mState;
+        }
+        
+        public void setProject(Project p){
+            project = p;
+        }
+        
+        public void setParentScreen(ViewProjectScreen parent){
+            parentScreen = parent;
+        }
+        
+        public void onStart(){
+            mState = STARTED;
+        }
+        
+        public void onPause(){
+            mState = PAUSED;
+        }
+        
+        public void onResume(){
+            mState = RESUMED;
+        }
+        
+        public void onFinish(){
+            mState = FINISHED;
+        }
     }
 }

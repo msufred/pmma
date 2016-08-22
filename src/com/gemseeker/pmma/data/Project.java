@@ -1,6 +1,8 @@
 package com.gemseeker.pmma.data;
 
 import java.time.LocalDate;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -15,18 +17,18 @@ public class Project {
     public static final String TERMINATED = "Terminated";
     public static final String FINISHED = "Finished";
     
-    private String id;
-    private String name;
-    private String status;
+    private final SimpleStringProperty id = new SimpleStringProperty();
+    private final SimpleStringProperty name = new SimpleStringProperty();
+    private final SimpleStringProperty status = new SimpleStringProperty();
+    private final SimpleStringProperty locationId = new SimpleStringProperty();
+
     private LocalDate dateCreated = null;
     private LocalDate dateToFinish = null;
-    private String locationId;
-    private String contractorId;
     
     private Location location;
-    private ObservableList<Contact> contacts;
-    private ObservableList<History> histories;
-    private ObservableList<Coordinate> coordinates;
+    private ObservableList<Contact> contacts = FXCollections.observableArrayList();
+    private ObservableList<History> histories = FXCollections.observableArrayList();;
+    private ObservableList<Coordinate> coordinates = FXCollections.observableArrayList();;
     
     public Project(){}
     
@@ -41,27 +43,39 @@ public class Project {
     }
     
     public final void setId(String id){
-        this.id = id;
+        this.id.set(id);
     }
     
-    public String getId(){
+    public SimpleStringProperty getId(){
         return id;
     }
     
-    public final void setName(String name){
-        this.name = name == null ? "" : name;
+    public String getIdValue(){
+        return id.get();
     }
     
-    public String getName(){
+    public final void setName(String name){
+        this.name.set(name == null ? "" : name);
+    }
+    
+    public SimpleStringProperty getName(){
         return name;
     }
     
-    public final void setLocationId(String locationId){
-        this.locationId = locationId;
+    public String getNameValue(){
+        return name.get();
     }
     
-    public String getLocationId(){
+    public final void setLocationId(String locationId){
+        this.locationId.set(locationId);
+    }
+    
+    public SimpleStringProperty getLocationId(){
         return locationId;
+    }
+    
+    public String getLocationIdValue(){
+        return locationId.get();
     }
     
     public final void setDateCreated(LocalDate created){
@@ -81,16 +95,20 @@ public class Project {
     }
     
     public final void setStatus(String status){
-        this.status = status;
+        this.status.set(status);
     }
     
-    public String getStatus(){
+    public SimpleStringProperty getStatus(){
         return status;
+    }
+    
+    public String getStatusValue(){
+        return status.get();
     }
     
     @Override
     public String toString(){
-        return name;
+        return name.get();
     }
     
     public void setLocation(Location location){
@@ -106,11 +124,15 @@ public class Project {
     }
     
     public void setContacts(ObservableList<Contact> contacts){
-        this.contacts = contacts;
+        this.contacts.setAll(contacts);
+    }
+    
+    public ObservableList<Contact> getContacts(){
+        return contacts;
     }
     
     public void setHistories(ObservableList<History> histories){
-        this.histories = histories;
+        this.histories.setAll(histories);
     }
     
     public ObservableList<History> getHistories(){
@@ -118,7 +140,7 @@ public class Project {
     }
     
     public void setCoordinates(ObservableList<Coordinate> coordinates){
-        this.coordinates = coordinates;
+        this.coordinates.setAll(coordinates);
     }
     
     public ObservableList<Coordinate> getCoodinates(){

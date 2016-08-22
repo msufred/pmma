@@ -2,66 +2,122 @@
     Created on : Jul 29, 2016, 3:46:48 PM
     Author     : RAFIS-FRED
 */
+/*------------------------- Roboto Font Family --------------------------------*/
 @font-face {
-    font-family: 'Lato Hairline';
-    src: url('Lato-Hai.ttf');
+    font-family: 'Roboto';
+    src: url('Roboto-Regular.ttf');
 }
 @font-face {
-    font-family: 'Lato Light';
-    src: url("Lato-Lig.ttf");
+    font-family: 'Roboto Medium';
+    src: url('Roboto-Medium.ttf');
 }
 @font-face {
-    font-family: 'Lato';
-    src: url('Lato-Reg.ttf');
+    font-family: 'Roboto Bold';
+    src: url('Roboto-Bold.ttf');
 }
-@font-face {
-    font-family: 'Lato Bold';
-    src: url('Lato-Bol.ttf');
-}
-
 *{
     -on-going-color: #1de9b6;
     -postponed-color: #cccccc;
     -terminated-color: #55676e;
     -finished-color: #ec407a;
-
     -button-primary-color: #ec407a;
     -button-primary-color-dark: #c43766;
 }
-/******************************************************************************
-* Default Style -- There are the default styles that is used by the application
-*******************************************************************************/
-/*.button{
-    -fx-background-color: linear-gradient(#1a91ee, #0880dc);
+/*---------------------- Style Global -----------------------*/
+.root{
+    -fx-font-size: 13;
+    -fx-font-family: "Roboto";
+    -fx-base: white;
+    -fx-background: #eef0f1;
 }
-.button:hover{
-    -fx-background-color: linear-gradient(#37a1f3, #0880dc);
+/*----------------------- Style All TextField---------------------------------*/
+.text-field{
+    -fx-background-color: #afafaf, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 4;
+    -fx-prompt-text-fill: #afafaf;
 }
-.button:pressed{
-    -fx-background-color: #0660a6,
-        linear-gradient(#0775ca, #1a91ee);
-    -fx-background-insets: 0, 1 0 0 0;
-}
-.button .text{
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 1, 0, 0, -1);
-    -fx-font-family: "Lato";
-    -fx-fill: white;
-}
+/*-----------------------Style All ComboBox------------------------------------*/
 .combo-box{
-    -fx-background-color: rgba(0, 0, 0, 0.2),#ffffff,
-        linear-gradient(#ffffff, #dce3e8);
-    -fx-background-insets: 0, 1, 2;
-}*/
-
-.text-field, .combo-box, .date-picker{
-    -fx-background-radius: 0;
+    -fx-background-color: #afafaf, white;
+    -fx-background-insets: 0, 1;
 }
-.table-view{
+.combo-box > .list-view, .combo-box > .list-cell:selected:filled, .combo-box .text{
+    -fx-text-fill: #576a78;
+}
+/*------------------------Style All DatePicker-------------------------------*/
+.date-picker{
+    -fx-background-color: transparent;
+}
+.date-picker .text-field{
+    -fx-background-color: #afafaf, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 8 0 0 8;
+}
+.date-picker .arrow-button{
+    -fx-background-color: #546e7a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 8 8 0;
+}
+.date-picker .arrow-button .arrow{
+    -fx-background-color: white;
+}
+/*-----------------------------Style All Button----------------------------*/
+.button{
+    -fx-text-fill: #576a78;
+}
+/*-----------------------------Style Cancel Button----------------------------*/
+.cancel-button{
+    -fx-background-color: #ff5252;
+    -fx-text-fill: white;
+}
+.cancel-button:hover{
+    -fx-background-color: #ff8a80;
+}
+.cancel-button:pressed{
+    -fx-background-color: #d32f2f;
+}
+/*------------------------------ Style OK Button -----------------------------*/
+.ok-button{
+    -fx-background-color: #546e7a;
+    -fx-text-fill: white;
+}
+.ok-button:hover{
+    -fx-background-color: #78909c;
+}
+.ok-button:pressed{
+    -fx-background-color: #37474f;
+}
+/*------------------------------ Style Default Button -----------------------------*/
+.default-button{
+    -fx-background-color: #546e7a;
+    -fx-text-fill: white;
+}
+.default-button:hover{
+    -fx-background-color: #78909c;
+}
+.default-button:pressed{
+    -fx-background-color: #37474f;
+}
+/*---------------------------- Style All Labels ------------------------------*/
+.label{
+    -fx-text-fill: #838383;
+}
+/*---------------------------- Style All TableView ---------------------------*/
+/*.table-view{
     -fx-background-color: white;
 }
 .table-view:focused{
     -fx-background-color: white;
     -fx-background-insets: 1;
+}
+*/.table-view > .nested-column-header > .table-column > .label {
+    -fx-text-fill: #838383;
+    -fx-background-color: transparent;
+}
+/*-------------------------------- Style All ToggleButton- --------------------*/
+.toggle-button {
+    -fx-text-fill:#576a78;
 }
 .title-bar{
     -fx-background-color: #dbdbdb,#ffffff,
@@ -70,7 +126,6 @@
 }
 .title-bar-text{
     -fx-text-fill: #576a78;
-    -fx-font-weight: bold;
 }
 .toggle-view-left{
     -fx-background-radius: 4 0 0 4;
@@ -78,91 +133,61 @@
 .toggle-view-right{
     -fx-background-radius: 0 4 4 0;
 }
-.scroll-pane {
-    -fx-background-color: white;
-}
-.viewport{
-    -fx-background-color: white;
-}
-.card{
-    -fx-background-color: #c5c5c5, white;
-    -fx-background-radius: 4;
-    -fx-background-insets: 0, 1;
-}
-/******************************************************************************
-* End of Default Styles
-******************************************************************************/
-
-.elevation-z1{
-    -fx-effect:dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, 1, 1);
-}
-
-.fab{
-    -fx-background-radius: 20;
-    -fx-background-color: white;
-}
-.title-big{
-    -fx-text-fill: #78909c;
-    -fx-font-size: 16;
-    -fx-font-family: "Lato";
-    -fx-font-weight: bold;
-}
-.title-big-light{
-    -fx-text-fill: #78909c;
-    -fx-font-size: 16;
-    -fx-font-family: "Lato Light";
-    -fx-font-style: italic;
-}
-.ripple{
-    -fx-fill: rgba(0, 0, 0, 0.3);
-}
-
-.paper-white-z1{
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 4, 0, 2, 3);
-}
-
-.paper-pink-button{
-    -fx-background-color: -button-primary-color;
-    -fx-text-fill: white;
-    -fx-font-family: "Lato";
-    -fx-font-weight: bold;
-}
-
 /*******************************************************************************/
 
 /*MAIN UI STYLES*/
-
+.indicator{
+    -fx-background-color: #ff5252;
+}
+.card{
+    -fx-background-color: white;
+    -fx-effect:dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 1, 1);
+}
+.card-title{
+    -fx-text-fill: #576a78;
+    -fx-font-size: 14;
+}
+.card-button{
+    -fx-background-color: transparent;
+    -fx-background-repeat:no-repeat;
+    -fx-background-position: left center;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-size: 22;
+}
+.card-button .text{
+    -fx-translate-x: 18;
+}
+.card-add-button{
+    -fx-background-image: url(../images/add-round.png);
+}
+.card-edit-button{
+    -fx-background-image: url(../images/edit-dark.png);
+}
 .sidebar{
     -fx-background-color: #263238;
 }
 .sidebar-header{
     -fx-background-color: #ff6b6b;
     -fx-text-fill: white;
-    -fx-font-size: 16;
-    -fx-font-family: "Lato";
     -fx-font-weight: bold;
 }
 .searchbar{
-    -fx-background-color: #363d43;
-    -fx-background-radius: 20;
-    -fx-background-insets: 14 4 14 4;
+    -fx-background-color: #afafaf, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 8;
 }
 .searchbar .text-field{
     -fx-background-color: transparent;
-    -fx-text-fill: rgba(255, 255, 255, 0.7);
-    -fx-font-size: 14;
-    -fx-font-family: "Lato";
+    -fx-text-fill: #576a78;
 }
 .searchbar .button{
     -fx-background-color: transparent;
-    -fx-background-image: url(../images/search-icon.png);
+    -fx-background-image: url(../images/search-default.png);
     -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }
 .searchbar .button:hover{
-    -fx-background-color: #454e55;
-    -fx-background-radius: 20;
+    -fx-background-image: url(../images/search-active.png);
 }
 .toolbar{
     -fx-background-color: #454e55;
@@ -170,27 +195,35 @@
 
 /* Main UI Sidebar Options */
 .username-label {
-    -fx-font-size: 12;
     -fx-text-fill: #78909c;
 }
 
 .option{
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
-    -fx-alignment: center-left;
-    -fx-background-position: 16;
+    -fx-alignment: center;
+    -fx-background-position: center 24;
     -fx-background-radius: 0, 0, 0, 0;
     -fx-border-color: transparent;
     -fx-text-fill: #55676e;
-    -fx-font-family: "Lato";
-    -fx-font-weight: bold;
-    -fx-font-size: 14;
+    -fx-font-size: 16;
+}
+.option .text{
+    -fx-translate-y: 14;
 }
 .option:selected{
     -fx-background-color: #2e3c42;
     -fx-text-fill: rgba(255, 255, 255, 0.9);
 }
-
+.option-tab{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-text-fill: #55676e;
+    -fx-font-size: 14;
+}
+.option-tab:selected{
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
 /*DASH OPTION*/
 .dash-option{
     -fx-background-image: url(../images/dash-default.png);
@@ -219,43 +252,51 @@
     -fx-background-image: url(../images/settings-active.png);
 }
 
-/*SEARCH FIELD*/
-.search-field{
-    -fx-background-color: rgba(0, 0, 0, 0.05);
-    -fx-background-radius: 14;
-    -fx-prompt-text-fill: #78909c;
-    -fx-font-size: 14;
-}
-.search-button{
-    -fx-background-color: rgba(0, 0, 0, 0.05);
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-image: url(../images/search-default.png);
-    -fx-background-radius: 14;
-}
-.search-button:hover{
-    -fx-background-image: url(../images/search-active.png);
-}.search-button:pressed{
-    -fx-background-color: rgba(0, 0, 0, 0.1);
-}
 /******************************************************************************/
 
 /*DASHBOARD SCREEN*/
 .count-label{
-    -fx-font-family: "Lato Bold";
-    /*-fx-font-weight: bold;*/
     -fx-font-size: 42;
     -fx-text-fill: #263238;
 }
+.count-subtitle-label{
+/*    -fx-font-family: "Roboto";
+    -fx-font-size: 14;*/
+}
 .stat-label{
-    /*-fx-font-weight: bold;*/
-    -fx-font-size: 12;
     -fx-text-fill: #78909c;
 }
 
 /******************************************************************************/
 
 /*PROJECTS SCREEN*/
+.icon-button .text{
+    -fx-translate-x: 4;
+}
+.add-button{
+    -fx-background-image: url(../images/add.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 16;
+    -fx-background-position: 8 center;
+}
+.edit-button{
+    -fx-background-image: url(../images/edit.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 16;
+    -fx-background-position: 8 center;
+}
+.delete-button{
+    -fx-background-image: url(../images/delete.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 16;
+    -fx-background-position: 8 center;
+}
+.view-button{
+    -fx-background-image: url(../images/view.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 16;
+    -fx-background-position: 8 center;
+}
 .projects-bg{
     -fx-background-color: #cccccc;
 }
@@ -271,14 +312,6 @@
     -fx-fill: black;
 }
 
-.icon-button:hover{
-    -fx-background-color: #eceff1;
-    -fx-background-radius: 16;
-}
-.icon-button:disabled .icon-svg{
-    -fx-fill: rgba(0, 0, 0, 0.4);
-}
-
 /*table columns*/
 .project-name-col{
     
@@ -289,87 +322,61 @@
 }
 
 .project-started-col{
-    -fx-alignment: CENTER;
+    -fx-alignment: center;
 }
 
 .project-to-finish-col{
-    -fx-alignment: CENTER;
+    -fx-alignment: center;
 }
 
 .project-status-col{
     
 }
 
-/******************************************************************************/
-/*View Projects*/
-.dark-tab{
-    /*-fx-background-color: #263238;*/
-    -fx-background-repeat: no-repeat;
-    -fx-alignment: center;
-    -fx-background-position: 16;
-    -fx-background-radius: 0, 0, 0, 0;
-    -fx-border-color: transparent;
-    -fx-text-fill: #78909c;
-    -fx-font-family: "Lato";
-    -fx-font-weight: bold;
-    -fx-font-size: 14;
-}
-.dark-tab:selected{
-    /*-fx-background-color: #3a4850;*/
-    -fx-text-fill: rgba(255, 255, 255, 0.9);
-}
-.updates-tab{
-    -fx-background-image: url(../images/updates-default.png);
-}.updates-tab:selected{
-    -fx-background-image: url(../images/updates-active.png);
-}
-.photos-tab{
-    -fx-background-image: url(../images/photos-default.png);
-}.photos-tab:selected{
-    -fx-background-image: url(../images/photos-active.png);
-}
-.geotag-tab{
-    -fx-background-image: url(../images/geotag-default.png);
-}.geotag-tab:selected{
-    -fx-background-image: url(../images/geotag-active.png);
-}
-.reports-tab{
-    -fx-background-image: url(../images/reports-big-default.png);
-}.reports-tab:selected{
-    -fx-background-image: url(../images/reports-big-active.png);
-}
-
-/******************************************************************************/
- /* Forms */
- 
 .form-check{
     -fx-background-image: url(../images/check.png);
     -fx-background-repeat: no-repeat;
     -fx-background-position: right center;
 }
 
-.form-label-error{
-    -fx-font-family: "Lato";
-    -fx-text-fill:#666666;
-}
-
 .form-error{
     -fx-background-image: url(../images/close.png);
     -fx-background-repeat: no-repeat;
-    -fx-background-position: right center;
+    -fx-background-position: right;
 }
-
-.mug-bg{
-    -fx-background-color: white;
-    -fx-background-image: url(../images/mug.png);
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: 400;
-    -fx-background-position: right, center;
+.project-indicator {
+    -fx-fill: -on-going-color;
 }
-
-.label-selection{
-    -fx-text-fill: #ffffff;
+.label-big{
+    -fx-text-fill: #55676e;
     -fx-font-size: 14;
     -fx-font-weight: bold;
-    -fx-font-family: "Lato";
+}
+.label-big-regular{
+    -fx-text-fill: #90a4ae;
+    /*-fx-font-family: "Roboto";*/
+    -fx-font-size: 14;
+}
+.label-details-main{
+    -fx-text-fill: black;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 15;
+}
+.label-details-sub{
+    -fx-text-fill: #78909c;
+    -fx-font-family: "Roboto";
+    /*-fx-font-size: 14;*/
+}
+.label-icon-location{
+    -fx-background-image: url(../images/location-icon.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 24;
+}
+.label-icon-contact{
+    -fx-background-image: url(../images/contact-icon.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 24;
+}
+.attachment-button{
+    -fx-background-color: transparent;
 }
