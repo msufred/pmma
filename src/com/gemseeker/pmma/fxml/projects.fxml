@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="projectStackPane" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox>
+         <children>
+            <StackPane alignment="TOP_LEFT" styleClass="sidebar">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefWidth="240.0" spacing="4.0">
+                     <children>
+                        <Region prefHeight="10.0" prefWidth="200.0" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAddAction" prefHeight="38.0" prefWidth="200.0" text="ADD PROJECT">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="add-button" />
+                           </styleClass>
+                        </Button>
+                        <Region prefHeight="10.0" prefWidth="240.0" />
+                        <ToggleButton fx:id="toggleAllProjects" mnemonicParsing="false" onAction="#allProjectsSelectedAction" prefHeight="32.0" prefWidth="240.0" selected="true" styleClass="sidebar-option" text="All Projects" />
+                        <HBox>
+                           <children>
+                              <ToggleButton fx:id="toggleOnGoing" mnemonicParsing="false" onAction="#onGoingProjectsSelectedAction" prefHeight="32.0" prefWidth="200.0" styleClass="sidebar-option" text="On Going" />
+                              <Label fx:id="onGoingLabel" alignment="CENTER" prefHeight="32.0" prefWidth="32.0" styleClass="sidebar-count-label" text="0" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <ToggleButton fx:id="togglePostponed" mnemonicParsing="false" onAction="#postponedProjectsSelectedAction" prefHeight="32.0" prefWidth="200.0" styleClass="sidebar-option" text="Postponed" />
+                              <Label fx:id="postponedLabel" alignment="CENTER" prefHeight="32.0" prefWidth="32.0" styleClass="sidebar-count-label" text="0" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <ToggleButton fx:id="toggleTerminated" mnemonicParsing="false" onAction="#terminatedProjectsSelectedAction" prefHeight="32.0" prefWidth="200.0" styleClass="sidebar-option" text="Terminated" />
+                              <Label fx:id="terminatedLabel" alignment="CENTER" prefHeight="32.0" prefWidth="32.0" styleClass="sidebar-count-label" text="0" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <ToggleButton fx:id="toggleFinished" mnemonicParsing="false" onAction="#finishedProjectsSelectedAction" prefHeight="32.0" prefWidth="200.0" styleClass="sidebar-option" text="Finished" />
+                              <Label fx:id="finishedLabel" alignment="CENTER" prefHeight="32.0" prefWidth="32.0" styleClass="sidebar-count-label" text="0" visible="false" />
+                           </children>
+                        </HBox>
+                        <Region prefHeight="16.0" prefWidth="200.0" />
+                        <Button fx:id="addCategoryBtn" mnemonicParsing="false" prefHeight="32.0" prefWidth="200.0" styleClass="default-button" text="Add Category">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="32.0" stroke="BLACK" strokeType="INSIDE" styleClass="indicator" translateY="70.0" width="4.0" />
+               </children>
+            </StackPane>
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" styleClass="background" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="200.0" spacing="4.0" styleClass="toolbar">
+                     <children>
+                        <Label prefHeight="32.0" prefWidth="32.0" styleClass="search-label-icon" />
+                        <TextField fx:id="searchField" maxWidth="-Infinity" prefHeight="32.0" prefWidth="400.0" promptText="Search Project" styleClass="search-field" />
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="editBtn" disable="true" mnemonicParsing="false" onAction="#onEditAction" prefHeight="28.0" prefWidth="90.0" text="Edit">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="edit-button" />
+                           </styleClass>
+                        </Button>
+                        <Button fx:id="deleteBtn" disable="true" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="28.0" prefWidth="90.0" text="Delete">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="delete-button" />
+                           </styleClass>
+                        </Button>
+                        <Button fx:id="viewBtn" disable="true" mnemonicParsing="false" onAction="#onViewAction" prefHeight="28.0" prefWidth="90.0" text="View">
+                           <styleClass>
+                              <String fx:value="default-button" />
+                              <String fx:value="icon-button" />
+                              <String fx:value="view-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" styleClass="table" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn fx:id="nameCol" prefWidth="300.0" text="Project" />
+                        <TableColumn fx:id="locationCol" prefWidth="300.0" text="Location" />
+                      <TableColumn fx:id="dateStartedCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" styleClass="date-column" text="Started" />
+                        <TableColumn fx:id="dateCompletionCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" styleClass="date-column" text="Completion" />
+                        <TableColumn fx:id="statusCol" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" styleClass="centered-column" text="Status" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</StackPane>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.gemseeker.pmma.ui.components.*?>
+
+<StackPane fx:id="container" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox>
+         <children>
+            <StackPane alignment="TOP_LEFT">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="240.0" styleClass="sidebar">
+                     <children>
+                        <Region prefHeight="10.0" prefWidth="200.0" />
+                        <Button mnemonicParsing="false" onAction="#onBackAction" prefHeight="32.0" prefWidth="200.0" styleClass="default-button" text="Back" />
+                        <Region prefHeight="10.0" prefWidth="200.0" />
+                        <ToggleButton fx:id="toggleDetails" mnemonicParsing="false" prefHeight="32.0" prefWidth="240.0" selected="true" styleClass="sidebar-option" text="Details" />
+                        <ToggleButton fx:id="toggleUpdates" mnemonicParsing="false" prefHeight="32.0" prefWidth="240.0" styleClass="sidebar-option" text="Updates" />
+                        <ToggleButton fx:id="togglePhotos" mnemonicParsing="false" prefHeight="32.0" prefWidth="240.0" styleClass="sidebar-option" text="Photos" />
+                        <ToggleButton fx:id="toggleMaps" mnemonicParsing="false" prefHeight="32.0" prefWidth="240.0" styleClass="sidebar-option" text="Maps" />
+                     </children>
+                  </VBox>
+                  <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="32.0" stroke="BLACK" strokeType="INSIDE" styleClass="indicator" translateY="52.0" width="4.0" />
+               </children>
+            </StackPane>
+            <VBox id="contentView" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="1000.0" styleClass="background" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox fx:id="toolbarLeft" alignment="CENTER_LEFT" styleClass="toolbar">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" minHeight="48.0" prefHeight="48.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Circle fx:id="circle" fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Label fx:id="projectName" styleClass="label-big" text="Project Name" HBox.hgrow="ALWAYS" />
+                              <Label fx:id="statusLabel" styleClass="label-big-regular" text="(Status)" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </StackPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</StackPane>
