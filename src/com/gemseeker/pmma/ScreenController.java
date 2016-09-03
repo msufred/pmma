@@ -65,7 +65,7 @@ public abstract class ScreenController {
             currentScreen.doOnPause();
             container.getChildren().remove(currentScreen.contentView);
         }
-        container.getChildren().add(0, view);
+        container.getChildren().add(view);
         screen.onResume();
         currentScreen = screen;
     }
