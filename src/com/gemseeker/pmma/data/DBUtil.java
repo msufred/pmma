@@ -14,8 +14,7 @@ public final class DBUtil {
         public static final String COORDINATES = "Coordinates";
         public static final String CONTACTS = "Contacts";
         public static final String EMAILS = "Emails";
-        public static final String PHONE_NUMBERS = "Phone Numbers";
-        public static final String MOBILE_NUMBERS = "Mobile Numbers";
+        public static final String PHONE_NUMBERS = "PhoneNumbers";
         public static final String PROJECT_CONTACTS = "ProjectContacts";
         public static final String PROJECT_UPDATES = "ProjectUpdates";
         public static final String ATTACHMENTS = "Attachments";
@@ -59,16 +58,14 @@ public final class DBUtil {
         public static final String EMAIL_ID = "ID";
         public static final String EMAIL_USER_ID = "User ID";
         public static final String EMAIL_ADDRESS = "Email";
+        public static final String EMAIL_TYPE = "Type";
 
         // PHONE NUMBERS
         public static final String PHONE_ID = "ID";
         public static final String PHONE_USER_ID = "User ID";
         public static final String PHONE_NUMBER = "Phone";
+        public static final String PHONE_TYPE = "Type";
 
-        // MOBILE NUMBERS
-        public static final String MOBILE_ID = "ID";
-        public static final String MOBILE_USER_ID = "User ID";
-        public static final String MOBILE_NUMBER = "Mobile";
 
         // PROJECTCONTACTS
         public static final String PC_ID = "ID";
