@@ -4,6 +4,8 @@ import com.gemseeker.pmma.ControlledScreen;
 import com.gemseeker.pmma.ScreenController;
 import com.gemseeker.pmma.animations.EasingMode;
 import com.gemseeker.pmma.animations.ExponentialInterpolator;
+import com.gemseeker.pmma.animations.QuadraticInterpolator;
+import com.gemseeker.pmma.animations.QuarticInterpolator;
 import com.gemseeker.pmma.data.Contact;
 import com.gemseeker.pmma.data.DBManager;
 import com.gemseeker.pmma.data.History;
@@ -43,9 +45,9 @@ public class MainActivityScreen extends ScreenController {
 
     public static final String DEBUG_NAME = "MainActivityScreen";
 
-    static final Duration TRANSITION_DURATION = new Duration(400);
-    static final Interpolator IN_INTERPOLATOR = new ExponentialInterpolator(EasingMode.EASE_IN);
-    static final Interpolator OUT_INTERPOLATOR = new ExponentialInterpolator(EasingMode.EASE_OUT);
+    static final Duration TRANSITION_DURATION = new Duration(450);
+    static final Interpolator IN_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_OUT);
+    static final Interpolator OUT_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_IN);
     static final double SCREEN_OFFSET = 8.0;
 
     @FXML StackPane stackPane;
@@ -217,8 +219,8 @@ public class MainActivityScreen extends ScreenController {
     }
     
     private void moveIndicator(double to){
-        Timeline anim = new Timeline(new KeyFrame(TRANSITION_DURATION,
-                new KeyValue(rectangle.translateYProperty(), to, OUT_INTERPOLATOR)
+        Timeline anim = new Timeline(new KeyFrame(new Duration(400),
+                new KeyValue(rectangle.translateYProperty(), to, new ExponentialInterpolator(EasingMode.EASE_OUT))
         ));
         anim.play();
     }
@@ -269,16 +271,15 @@ public class MainActivityScreen extends ScreenController {
     /***************************************************************************
      *                  ScreenController Overridden Methods                    *
      ***************************************************************************/
-    /**
-     * 
-     * @param key 
-     */
+    
+    // <editor-fold defaultstate="collapsed" desc="use the default setScreen method without transition animation">
+    
     @Override
     public void setScreen(String key) {
         ControlledScreen screen = getScreen(key);
         // check if screens contains the screen to load and if current screen
         // is not the screen to load
-        if (!getScreens().containsKey(key) || getCurrentScreen() == screen) {
+        if (screen == null || getCurrentScreen() == screen) {
             return;
         }
 
@@ -297,16 +298,20 @@ public class MainActivityScreen extends ScreenController {
 
         if (isAnimated) {
             Transition transition;
+            /*
+             * If current screen is a child, meaning a screen within a screen, the
+             * animation is set to translate the screen downwards.
+             */
             if (currentScreen.isChild()) {
                 // translate the currentScreen downwards
                 TranslateTransition trans = new TranslateTransition(new Duration(300), currentScreen.getContentView());
                 trans.setToY(stackPane.getHeight() + SCREEN_OFFSET);
-                trans.setInterpolator(IN_INTERPOLATOR);
+                trans.setInterpolator(OUT_INTERPOLATOR);
 
                 // fade in the screen to load
                 FadeTransition fadeIn = new FadeTransition(TRANSITION_DURATION, content);
                 fadeIn.setToValue(1.0);
-                fadeIn.setInterpolator(Interpolator.EASE_BOTH);
+                fadeIn.setInterpolator(OUT_INTERPOLATOR);
 
                 transition = new ParallelTransition();
                 ((ParallelTransition) transition).getChildren().addAll(trans, fadeIn);
@@ -330,12 +335,12 @@ public class MainActivityScreen extends ScreenController {
                 // translate screen to load upwards
                 TranslateTransition trans = new TranslateTransition(TRANSITION_DURATION, content);
                 trans.setToY(0.0);
-                trans.setInterpolator(OUT_INTERPOLATOR);
+                trans.setInterpolator(IN_INTERPOLATOR);
 
                 // fade out the current screen
                 FadeTransition fadeOut = new FadeTransition(new Duration(300), currentScreen.getContentView());
                 fadeOut.setToValue(0.0);
-                fadeOut.setInterpolator(Interpolator.EASE_BOTH);
+                fadeOut.setInterpolator(IN_INTERPOLATOR);
 
                 transition = new ParallelTransition();
                 ((ParallelTransition) transition).getChildren().addAll(trans, fadeOut);
@@ -365,4 +370,6 @@ public class MainActivityScreen extends ScreenController {
             hasPendingOperation = false;
         }
     }
+    
+    // </editor-fold>
 }
