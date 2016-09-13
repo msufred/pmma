@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane hbarPolicy="NEVER" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox alignment="TOP_CENTER" prefWidth="1200.0" spacing="8.0" styleClass="background" stylesheets="@../css/styles.css">
+         <children>
+            <VBox maxWidth="900.0" prefHeight="200.0" prefWidth="100.0" spacing="8.0" styleClass="card">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <children>
+                  <Label styleClass="card-title" text="Update Details" />
+                  <TextArea prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <VBox maxWidth="-Infinity" prefWidth="900.0" spacing="8.0" styleClass="card">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label styleClass="card-title" text="Photo Attachments" />
+                        <Region prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="   ADD">
+                           <styleClass>
+                              <String fx:value="icon-button" />
+                              <String fx:value="card-add-button" />
+                              <String fx:value="card-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <StackPane style="-fx-background-color: #fafafa;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TilePane prefHeight="200.0" prefWidth="200.0" />
+                        <Label styleClass="label-details-sub" text="No Photo Attachments" />
+                     </children>
+                  </StackPane>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </VBox>
+            <VBox maxWidth="-Infinity" prefWidth="900.0" spacing="8.0" styleClass="card">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label styleClass="card-title" text="Video Attachments" />
+                        <Region prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="   ADD">
+                           <styleClass>
+                              <String fx:value="icon-button" />
+                              <String fx:value="card-add-button" />
+                              <String fx:value="card-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <StackPane style="-fx-background-color: #fafafa;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TilePane prefHeight="200.0" prefWidth="200.0" />
+                        <Label styleClass="label-details-sub" text="No Video Attachments" />
+                     </children>
+                  </StackPane>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </VBox>
+            <VBox maxWidth="-Infinity" prefWidth="900.0" spacing="8.0" styleClass="card">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label styleClass="card-title" text="Document Attachments" />
+                        <Region prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="   ADD">
+                           <styleClass>
+                              <String fx:value="icon-button" />
+                              <String fx:value="card-add-button" />
+                              <String fx:value="card-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <StackPane style="-fx-background-color: #fafafa;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TilePane prefHeight="200.0" prefWidth="200.0" />
+                        <Label styleClass="label-details-sub" text="No Document Attachments" />
+                     </children>
+                  </StackPane>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </VBox>
+   </content>
+</ScrollPane>
