@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0" spacing="4.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" spacing="4.0">
+         <children>
+            <Label text="Project Title" />
+            <Label text="Location" />
+         </children>
+         <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="68.0">
+         <children>
+            <Label text="Started:" />
+            <Label text="Completion:" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="68.0" HBox.hgrow="ALWAYS">
+         <children>
+            <Label text="01-Feb-2015" />
+            <Label text="12-Dec-2017" />
+         </children>
+      </VBox>
+      <Button mnemonicParsing="false" text="View" />
+   </children>
+   <padding>
+      <Insets left="16.0" right="16.0" />
+   </padding>
+</HBox>
