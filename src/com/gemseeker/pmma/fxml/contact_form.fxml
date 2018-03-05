@@ -22,7 +22,12 @@
                               <VBox spacing="8.0" styleClass="card">
                                  <children>
                                     <Label styleClass="card-title" text="Contact Details" />
-                                    <TextField fx:id="nameField" minHeight="-Infinity" prefHeight="40.0" promptText="Name" styleClass="form-text-field" HBox.hgrow="ALWAYS" />
+                                    <HBox spacing="8.0">
+                                       <children>
+                                          <TextField fx:id="firstNameField" minHeight="-Infinity" prefHeight="40.0" promptText="First Name" styleClass="form-text-field" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="lastNameField" minHeight="-Infinity" prefHeight="40.0" promptText="Last Name" styleClass="form-text-field" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
                                     <TextField fx:id="addressField" minHeight="-Infinity" prefHeight="40.0" promptText="Address" styleClass="form-text-field" HBox.hgrow="ALWAYS" />
                                     <TextField fx:id="companyField" minHeight="-Infinity" prefHeight="40.0" promptText="Company" styleClass="form-text-field" HBox.hgrow="ALWAYS" />
                                  </children>

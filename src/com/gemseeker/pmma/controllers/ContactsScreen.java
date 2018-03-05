@@ -1,8 +1,8 @@
 package com.gemseeker.pmma.controllers;
 
+import static com.gemseeker.pmma.AppConstants.IN_ANIM_INTERPOLATOR;
+import static com.gemseeker.pmma.AppConstants.OUT_ANIM_INTERPOLATOR;
 import com.gemseeker.pmma.ControlledScreen;
-import com.gemseeker.pmma.animations.interpolators.EasingMode;
-import com.gemseeker.pmma.animations.interpolators.QuarticInterpolator;
 import com.gemseeker.pmma.data.Contact;
 import com.gemseeker.pmma.data.DBManager;
 import com.gemseeker.pmma.data.Email;
@@ -14,10 +14,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import com.gemseeker.pmma.utils.Utils;
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -50,8 +50,6 @@ public class ContactsScreen extends ControlledScreen {
     
     private static final Duration ANIM_DURATION_LONG = new Duration(400);
     private static final Duration ANIM_DURATION_SHORT = new Duration(200);
-    private static final Interpolator IN_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_OUT);
-    private static final Interpolator OUT_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_IN);
     
     @FXML StackPane container;
     @FXML ScrollPane scrollPane;
@@ -64,9 +62,12 @@ public class ContactsScreen extends ControlledScreen {
     private ChatForm chatForm;
     private ContactForm contactForm;
     private Pane overlay;
-    private ObservableList<Contact> contacts;
+
+    private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private FilteredList<Contact> filteredList;
+
     private int mode;
+    private boolean contactsLoaded = false;
 
     public ContactsScreen(){
         super(NAME);
@@ -77,7 +78,7 @@ public class ContactsScreen extends ControlledScreen {
     private void initComponents(){
         contactsList.setCellFactory((ListView<Contact> listCell) -> new ContactsListCell());
         contactsList.getSelectionModel().selectedItemProperty()
-                .addListener((ObservableValue<? extends Contact> ov, Contact old, Contact newValue) -> {
+                .addListener((ov, old, newValue) -> {
             if(newValue != null){
                 if(chatForm == null){
                     chatForm = new ChatForm();
@@ -94,9 +95,12 @@ public class ContactsScreen extends ControlledScreen {
             editBtn.setDisable(newValue == null);
             deleteBtn.setDisable(newValue == null);
         });
-        searchField.textProperty().addListener((ObservableValue<? extends String> ov, String old, String newValue) -> {
+        searchField.textProperty().addListener((ov, old, newValue) -> {
             filteredList.setPredicate(contact -> {
-                return contact.getNameProperty().get().toLowerCase().contains(newValue.toLowerCase());
+                return (contact.getFirstNameProperty().concat(contact.getLastNameProperty()))
+                        .get()
+                        .toLowerCase()
+                        .contains(newValue.toLowerCase());
             });
         });
         
@@ -120,11 +124,11 @@ public class ContactsScreen extends ControlledScreen {
         
         FadeTransition fadeIn = new FadeTransition(ANIM_DURATION_SHORT, overlay);
         fadeIn.setToValue(1);
-        fadeIn.setInterpolator(IN_INTERPOLATOR);
+        fadeIn.setInterpolator(IN_ANIM_INTERPOLATOR);
         fadeIn.setOnFinished(evt -> {
             TranslateTransition translate = new TranslateTransition(ANIM_DURATION_LONG, content);
             translate.setToY(0);
-            translate.setInterpolator(IN_INTERPOLATOR);
+            translate.setInterpolator(IN_ANIM_INTERPOLATOR);
             translate.setOnFinished(e -> {
                 ((MainActivityScreen)screenController).setPendingOperationState(true);
                 if(this.mode == EDIT_MODE){
@@ -139,11 +143,11 @@ public class ContactsScreen extends ControlledScreen {
     private void hideContactForm(){
         TranslateTransition translate = new TranslateTransition(ANIM_DURATION_LONG, contactForm.contentView);
         translate.setToY(((StackPane)contentView).getHeight() + 8);
-        translate.setInterpolator(OUT_INTERPOLATOR);
+        translate.setInterpolator(OUT_ANIM_INTERPOLATOR);
         translate.setOnFinished(evt -> {
             FadeTransition fadeOut = new FadeTransition(ANIM_DURATION_SHORT, overlay);
             fadeOut.setToValue(0);
-            fadeOut.setInterpolator(OUT_INTERPOLATOR);
+            fadeOut.setInterpolator(OUT_ANIM_INTERPOLATOR);
             fadeOut.setOnFinished(e -> {
                 ((StackPane)contentView).getChildren().removeAll(contactForm.contentView, overlay);
                 ((MainActivityScreen)screenController).setPendingOperationState(false);
@@ -159,14 +163,14 @@ public class ContactsScreen extends ControlledScreen {
         container.getChildren().add(content);
         TranslateTransition translate = new TranslateTransition(ANIM_DURATION_LONG, content);
         translate.setToY(0);
-        translate.setInterpolator(IN_INTERPOLATOR);
+        translate.setInterpolator(IN_ANIM_INTERPOLATOR);
         translate.play();
     }
     
     private void hideChat(){
         TranslateTransition translate = new TranslateTransition(ANIM_DURATION_LONG, chatForm.getContentView());
         translate.setToY(container.getHeight() + 8);
-        translate.setInterpolator(OUT_INTERPOLATOR);
+        translate.setInterpolator(OUT_ANIM_INTERPOLATOR);
         translate.setOnFinished(evt -> {
             container.getChildren().remove(chatForm.getContentView());
         });
@@ -193,7 +197,7 @@ public class ContactsScreen extends ControlledScreen {
         if(contact != null){
             Alert alert = new Alert(AlertType.INFORMATION, 
                     "You are about to delete the contact \"" 
-                        + contact.getNameProperty().get()
+                        + contact.getFirstNameProperty().get()
                         + "\". Do you want to continue?",
                     ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
@@ -206,9 +210,9 @@ public class ContactsScreen extends ControlledScreen {
                         // add to history
                         History history = new History();
                         history.setDate(LocalDateTime.now());
-                        history.setNotes("Deleted contact \"" + contact.getNameProperty().get() + "\"");
+                        history.setNotes("Deleted contact \"" + contact.getFirstNameProperty().get() + "\"");
                         DBManager.addHistory(history);
-                        ((MainActivityScreen)screenController).getHistories().add(history);
+//                        ((MainActivityScreen)screenController).getHistories().add(history);
                     }
                 }
             });
@@ -217,7 +221,8 @@ public class ContactsScreen extends ControlledScreen {
     
     @Override
     public void onStart() {
-        
+        filteredList = new FilteredList<>(contacts, contact -> true);
+        contactsList.setItems(filteredList);
     }
 
     @Override
@@ -226,15 +231,24 @@ public class ContactsScreen extends ControlledScreen {
 
     @Override
     public void onResume() {
-        if(contacts == null){
-            contacts = ((MainActivityScreen) screenController).getContacts();
-            filteredList = new FilteredList<>(contacts, contact -> true);
-            contactsList.setItems(filteredList);
-        }
-    }
+        if (!contactsLoaded) {
+            Thread t = new Thread(new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    contacts.setAll(DBManager.getContacts());
+                    return null;
+                }
 
-    @Override
-    public void onFinish() {
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    contactsLoaded = true;
+                }
+            });
+
+            t.setDaemon(true);
+            t.start();
+        }
     }
     
     /**************************************************************************
@@ -264,7 +278,7 @@ public class ContactsScreen extends ControlledScreen {
                 setGraphic(null);
                 setText(null);
             }else{
-                nameLabel.setText(item.getNameProperty().get());
+                nameLabel.setText(item.getFirstNameProperty().get());
                 Optional.of(item.getImagePathProperty()).ifPresent(path -> {
                     if(path.get() != null){
                         File file = new File(path.get());
@@ -303,7 +317,8 @@ public class ContactsScreen extends ControlledScreen {
         @FXML StackPane formStackPane;
         @FXML VBox formContainer;
         @FXML ScrollPane scrollPane;
-        @FXML TextField nameField;
+        @FXML TextField firstNameField;
+        @FXML TextField lastNameField;
         @FXML TextField companyField;
         @FXML TextField addressField;
         @FXML TextField numberField;
@@ -337,14 +352,13 @@ public class ContactsScreen extends ControlledScreen {
                     evt.consume();
                 }
             });
-            numberField.textProperty().addListener((ObservableValue<? extends String> ov, String old, String newValue) -> {
+            numberField.textProperty().addListener((ov, old, newValue) -> {
                 addNumBtn.setDisable(newValue.isEmpty());
             });
             numberType.setItems(FXCollections.observableArrayList("Home", "Mobile", "Work"));
             numberType.getSelectionModel().select(0);
-            emailField.textProperty().addListener((ObservableValue<? extends String> ov, String old, String newValue) -> {
-                String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-                addEmailBtn.setDisable(!newValue.matches(regex));
+            emailField.textProperty().addListener((ov, old, newValue) -> {
+                addEmailBtn.setDisable(!newValue.matches(Utils.EMAIL_REGEX));
             });
             emailType.setItems(FXCollections.observableArrayList("Personal", "Office"));
             emailType.getSelectionModel().select(0);
@@ -367,29 +381,27 @@ public class ContactsScreen extends ControlledScreen {
                 final Contact contact = new Contact();
                 @Override
                 protected Object call() throws Exception {
-                    int idNum = 0;
-                    while(true){
-                        String tempId = "contact_" + idNum;
-                        if(!contacts.stream().anyMatch(c -> c.getContactIdProperty().get().equals(tempId))){
-                            contact.setContactId(tempId);
-                            // set user id for each number and email
-                            numbers.stream().forEach((PhoneNumber num) -> num.setUserId(tempId));
-                            emails.stream().forEach((Email email) -> email.setUserId(tempId));
-                            break;
-                        }
-                        idNum++;
-                    }
-                    contact.setName(nameField.getText());
+                    contact.setFirstName(firstNameField.getText());
+                    contact.setLastName(lastNameField.getText());
                     contact.setCompany(companyField.getText());
                     contact.setAddress(addressField.getText());
 
-                    boolean contactSaved = DBManager.addContact(contact);
-                    if(!contactSaved){
+                    int contactId = DBManager.addContact(contact);
+                    if(contactId == -1){
                         updateMessage("failed to save contact");
                         System.out.println("failed to save contact.");
                     }else{
+                        // TODO: Retrieve the id of the contact first, then add numbers and emails to the database.
+                        for (PhoneNumber num: numbers) {
+                            num.setContactId(contactId);
+                        }
                         boolean numbersAdded = DBManager.addPhoneNumbers(numbers);
+
+                        for (Email email: emails) {
+                            email.setContactId(contactId);
+                        }
                         boolean emailsAdded = DBManager.addEmails(emails);
+
                         if(numbersAdded && emailsAdded){
                             contact.setPhones(numbers);
                             contact.setEmails(emails);
@@ -425,7 +437,7 @@ public class ContactsScreen extends ControlledScreen {
         }
         
         private void clearFields(){
-            nameField.clear();
+            firstNameField.clear();
             addressField.clear();
             companyField.clear();
             numberType.getSelectionModel().select(0);
@@ -448,7 +460,8 @@ public class ContactsScreen extends ControlledScreen {
          */
         public void editContact(){
             if(mContact != null){
-                nameField.setText(mContact.getNameProperty().get());
+                firstNameField.setText(mContact.getFirstNameProperty().get());
+                lastNameField.setText(mContact.getLastNameProperty().get());
                 addressField.setText(mContact.getAddressProperty().get());
                 companyField.setText(mContact.getCompanyProperty().get());
                 // TODO: load contact's numbers and emails
@@ -485,8 +498,8 @@ public class ContactsScreen extends ControlledScreen {
         
         @FXML
         public void onSaveAction(ActionEvent event){
-            if(nameField.getText().isEmpty() || companyField.getText().isEmpty() || addressField.getText().isEmpty()){
-                Alert alert = new Alert(AlertType.INFORMATION, "Some fields are empty!");
+            if(firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty()){
+                Alert alert = new Alert(AlertType.INFORMATION, "First name & Last name should not be empty.");
                 alert.setTitle("Failed to Save Contact");
                 alert.showAndWait();
                 return;

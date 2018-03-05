@@ -1,5 +1,6 @@
 package com.gemseeker.pmma.data;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -9,7 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Email {
 
     private int id;
-    private final SimpleStringProperty userIdProperty = new SimpleStringProperty();
+    private final SimpleIntegerProperty contactIdProperty = new SimpleIntegerProperty();
     private final SimpleStringProperty emailAddressProperty = new SimpleStringProperty();
     private final SimpleStringProperty typeProperty = new SimpleStringProperty();
     
@@ -23,12 +24,12 @@ public class Email {
         return id;
     }
     
-    public void setUserId(String userId){
-        userIdProperty.set(userId);
+    public void setContactId(int userId){
+        contactIdProperty.set(userId);
     }
     
-    public SimpleStringProperty getUserIdProperty(){
-        return userIdProperty;
+    public SimpleIntegerProperty getContactIdProperty(){
+        return contactIdProperty;
     }
     
     public void setEmailAddress(String emailAddress){

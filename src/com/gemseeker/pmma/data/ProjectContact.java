@@ -10,13 +10,13 @@ import javafx.beans.property.SimpleStringProperty;
 public class ProjectContact {
     
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
-    private final SimpleStringProperty projectId = new SimpleStringProperty();
-    private final SimpleStringProperty contactId = new SimpleStringProperty();
+    private final SimpleIntegerProperty projectId = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty contactId = new SimpleIntegerProperty();
     private Contact contact;
     
     public ProjectContact(){}
     
-    public ProjectContact(int id, String projectId, String contactId, Contact contact){
+    public ProjectContact(int id, int projectId, int contactId, Contact contact){
         setId(id);
         setProjectId(projectId);
         setContactId(contactId);
@@ -35,27 +35,27 @@ public class ProjectContact {
         return id;
     }
     
-    public final void setProjectId(String projectId){
+    public final void setProjectId(int projectId){
         this.projectId.set(projectId);
     }
     
-    public String getProjectIdValue(){
+    public int getProjectIdValue(){
         return projectId.get();
     }
     
-    public SimpleStringProperty getProjectId(){
+    public SimpleIntegerProperty getProjectId(){
         return projectId;
     }
     
-    public final void setContactId(String contactId){
+    public final void setContactId(int contactId){
         this.contactId.set(contactId);
     }
     
-    public String getContactIdValue(){
+    public int getContactIdValue(){
         return contactId.get();
     }
     
-    public SimpleStringProperty getContactId(){
+    public SimpleIntegerProperty getContactId(){
         return contactId;
     }
     

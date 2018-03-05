@@ -21,21 +21,4 @@ public class CalendarScreen extends ControlledScreen {
         box.getStyleClass().add("background");
         setContentView(box);
     }
-    
-    @Override
-    public void onStart() {
-    }
-
-    @Override
-    public void onPause() {
-    }
-
-    @Override
-    public void onResume() {
-    }
-
-    @Override
-    public void onFinish() {
-    }
-
 }

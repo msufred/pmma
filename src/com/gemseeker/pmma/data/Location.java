@@ -7,42 +7,45 @@ package com.gemseeker.pmma.data;
  */
 public class Location {
 
-    private String locationId;
-    private String street;
-    private String city;
+    private int locationId;
+    private String barangay;
+    private String municipality;
     private String province;
+    private String otherLocationInfo;
+    private String longitude;
+    private String latitude;
     
     public Location(){}
     
-    public Location(String id, String street, String city, String province){
+    public Location(int id, String street, String municipality, String province){
         setId(id);
-        setStreet(street);
-        setCity(city);
+        setBarangay(street);
+        setMunicipality(municipality);
         setProvince(province);
     }
     
-    public final void setId(String id){
+    public final void setId(int id){
         this.locationId = id;
     }
     
-    public String getId(){
+    public int getId(){
         return locationId;
     }
     
-    public final void setStreet(String street){
-        this.street = street;
+    public final void setBarangay(String barangay){
+        this.barangay = barangay;
     }
     
-    public String getStreet(){
-        return street;
+    public String getBarangay(){
+        return barangay;
     }
     
-    public final void setCity(String city){
-        this.city = city;
+    public final void setMunicipality(String municipality){
+        this.municipality = municipality;
     }
     
-    public String getCity(){
-        return city;
+    public String getMunicipality(){
+        return municipality;
     }
     
     public final void setProvince(String province){
@@ -55,6 +58,30 @@ public class Location {
     
     @Override
     public String toString(){
-        return String.format("%s, %s, %s", street, city, province);
+        return String.format("%s, %s, %s", barangay, municipality, province);
+    }
+
+    public String getOtherLocationInfo() {
+        return otherLocationInfo;
+    }
+
+    public void setOtherLocationInfo(String otherLocationInfo) {
+        this.otherLocationInfo = otherLocationInfo;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }

@@ -1,18 +1,13 @@
 package com.gemseeker.pmma.controllers;
 
+import com.gemseeker.pmma.AppConstants;
+import static com.gemseeker.pmma.AppConstants.IN_ANIM_INTERPOLATOR;
+import static com.gemseeker.pmma.AppConstants.OUT_ANIM_INTERPOLATOR;
+import com.gemseeker.pmma.controllers.viewprojects.ViewProjectScreen;
 import com.gemseeker.pmma.ControlledScreen;
 import com.gemseeker.pmma.ScreenController;
-import com.gemseeker.pmma.animations.interpolators.EasingMode;
-import com.gemseeker.pmma.animations.interpolators.ExponentialInterpolator;
-import com.gemseeker.pmma.animations.interpolators.QuarticInterpolator;
-import com.gemseeker.pmma.data.Contact;
-import com.gemseeker.pmma.data.DBManager;
-import com.gemseeker.pmma.data.History;
-import com.gemseeker.pmma.data.Location;
-import com.gemseeker.pmma.data.Project;
 import com.gemseeker.pmma.fxml.ScreenLoader;
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
@@ -20,13 +15,9 @@ import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -37,6 +28,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
+ * The core of the application. MainActivityScreen is a subclass of a ScreenController on which
+ * has the function to manage all ControlledScreen objects. MainActivityScreen will not have to
+ * access the database (for retrieving, adding data etc). All database access should be done
+ * by ControlledScreen objects.
  *
  * @author RAFIS-FRED
  */
@@ -45,24 +40,23 @@ public class MainActivityScreen extends ScreenController {
     public static final String DEBUG_NAME = "MainActivityScreen";
 
     static final Duration TRANSITION_DURATION = new Duration(450);
-    static final Interpolator IN_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_OUT);
-    static final Interpolator OUT_INTERPOLATOR = new QuarticInterpolator(EasingMode.EASE_IN);
     static final double SCREEN_OFFSET = 8.0;
 
     @FXML StackPane stackPane;
-    
+
+    // sidebar menu components is composed of ToggleButtons
     @FXML ToggleButton toggleProjects;
     @FXML ToggleButton toggleContacts;
     @FXML ToggleButton toggleCalendar;
     @FXML ToggleButton toggleReports;
     @FXML ToggleButton toggleHistories;
     @FXML ToggleButton toggleSettings;
-    
-    @FXML Rectangle rectangle;
-    private ProgressIndicator progressIndicator;
+    @FXML Rectangle rectangle; // sidebar indicator
+
     private final Parent parentView;
     private ToggleGroup toggleGroup;
-    
+
+    // holds the current ControlledScreen visible to the user
     private ControlledScreen currentScreen;
 
     // screens
@@ -74,12 +68,6 @@ public class MainActivityScreen extends ScreenController {
     private ReportsScreen reportsScreen;
     private SettingsScreen settingsScreen;
 
-    // data
-    private final ObservableList<Project> projects = FXCollections.observableArrayList();
-    private final ObservableList<Contact> contacts = FXCollections.observableArrayList();
-    private final ObservableList<Location> locations = FXCollections.observableArrayList();
-    private final ObservableList<History> histories = FXCollections.observableArrayList();
-
     /**
      * A boolean that is used to notify the application of a pending operation
      * that must be either completed or cancel.
@@ -87,18 +75,17 @@ public class MainActivityScreen extends ScreenController {
     private boolean hasPendingOperation = false;
     private boolean isAnimated = true;
     private Pane overlay;
-    
-    private Task loadDataTask;
 
     public MainActivityScreen() {
         parentView = ScreenLoader.loadScreen(MainActivityScreen.this, "mainview.fxml");
         setScreenContainer(stackPane);
         initComponents();
-        loadData();
+        createLoadScreens();
+        setScreen(ProjectsScreen.NAME);
     }
 
      private void initComponents() {
-         
+
         // sets the toggle group
         toggleGroup = new ToggleGroup();
         toggleGroup.getToggles().addAll(toggleProjects, toggleContacts, toggleCalendar,
@@ -136,66 +123,6 @@ public class MainActivityScreen extends ScreenController {
             }
             moveIndicator(((ToggleButton)newValue).getBoundsInParent().getMinY());
         });
-        
-        progressIndicator = new ProgressIndicator();
-        progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        progressIndicator.setMaxSize(48, 48);
-
-        // Task for loading data to be called by loadData() method
-        loadDataTask = new Task(){
-            @Override
-            protected Object call() throws Exception {
-                // add progress indicator to stackPane
-                stackPane.getChildren().add(progressIndicator);
-                
-                projects.setAll(DBManager.getProjects());
-                contacts.setAll(DBManager.getContacts());
-                locations.setAll(DBManager.getLocations());
-                histories.setAll(DBManager.getHistories());
-                
-                setupProjectsData();
-                createLoadScreens();
-                
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                // remove the progress indicator and load dashboard screen
-                stackPane.getChildren().remove(progressIndicator);
-                setScreen(ProjectsScreen.NAME);
-            }
-
-            @Override
-            protected void failed() {
-                super.failed(); 
-                System.out.println("Failed to load data from database!");
-                stackPane.getChildren().remove(progressIndicator);
-            }
-        };
-    }
-
-     /**
-      * Retrieves data from database.
-      */
-    private void loadData() {
-        Thread thread = new Thread(loadDataTask);
-        thread.setDaemon(true);
-        thread.start();
-    }
-    
-    private void setupProjectsData() {
-        for(Project project : projects){
-            // set location
-            for(Location location : locations){
-                if(location.getId().equals(project.getLocationIdProperty().get())){
-                    project.setLocationId(location.getId());
-                    project.setLocation(location);
-                    break;
-                }
-            }
-        }
     }
     
     private void createLoadScreens(){
@@ -219,7 +146,7 @@ public class MainActivityScreen extends ScreenController {
     
     private void moveIndicator(double to){
         Timeline anim = new Timeline(new KeyFrame(new Duration(400),
-                new KeyValue(rectangle.translateYProperty(), to, new ExponentialInterpolator(EasingMode.EASE_OUT))
+                new KeyValue(rectangle.translateYProperty(), to, AppConstants.IN_ANIM_INTERPOLATOR)
         ));
         anim.play();
     }
@@ -234,23 +161,7 @@ public class MainActivityScreen extends ScreenController {
     public Parent getContentView() {
         return parentView;
     }
-    
-    public ObservableList<Project> getProjects() {
-        return projects;
-    }
-    
-    public ObservableList<Contact> getContacts() {
-        return contacts;
-    }
 
-    public ObservableList<Location> getLocations() {
-        return locations;
-    }
-
-    public ObservableList<History> getHistories() {
-        return histories;
-    }
-    
     public void setPendingOperationState(boolean hasPendingOperation) {
         this.hasPendingOperation = hasPendingOperation;
     }
@@ -266,7 +177,8 @@ public class MainActivityScreen extends ScreenController {
     public boolean isAnimated() {
         return isAnimated;
     }
-    
+
+
     /***************************************************************************
      *                  ScreenController Overridden Methods                    *
      ***************************************************************************/
@@ -305,12 +217,12 @@ public class MainActivityScreen extends ScreenController {
                 // translate the currentScreen downwards
                 TranslateTransition trans = new TranslateTransition(new Duration(300), currentScreen.getContentView());
                 trans.setToY(stackPane.getHeight() + SCREEN_OFFSET);
-                trans.setInterpolator(OUT_INTERPOLATOR);
+                trans.setInterpolator(OUT_ANIM_INTERPOLATOR);
 
                 // fade in the screen to load
                 FadeTransition fadeIn = new FadeTransition(TRANSITION_DURATION, content);
                 fadeIn.setToValue(1.0);
-                fadeIn.setInterpolator(OUT_INTERPOLATOR);
+                fadeIn.setInterpolator(OUT_ANIM_INTERPOLATOR);
 
                 transition = new ParallelTransition();
                 ((ParallelTransition) transition).getChildren().addAll(trans, fadeIn);
@@ -334,12 +246,12 @@ public class MainActivityScreen extends ScreenController {
                 // translate screen to load upwards
                 TranslateTransition trans = new TranslateTransition(TRANSITION_DURATION, content);
                 trans.setToY(0.0);
-                trans.setInterpolator(IN_INTERPOLATOR);
+                trans.setInterpolator(IN_ANIM_INTERPOLATOR);
 
                 // fade out the current screen
                 FadeTransition fadeOut = new FadeTransition(new Duration(300), currentScreen.getContentView());
                 fadeOut.setToValue(0.0);
-                fadeOut.setInterpolator(IN_INTERPOLATOR);
+                fadeOut.setInterpolator(IN_ANIM_INTERPOLATOR);
 
                 transition = new ParallelTransition();
                 ((ParallelTransition) transition).getChildren().addAll(trans, fadeOut);
@@ -367,7 +279,7 @@ public class MainActivityScreen extends ScreenController {
                 currentScreen = screen;
             }
             hasPendingOperation = false;
-        }
+        } // -- end IF ANIMATED
     }
     
     // </editor-fold>

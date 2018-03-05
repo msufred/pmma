@@ -1,6 +1,8 @@
 package com.gemseeker.pmma.data;
 
 import java.util.Collection;
+
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,8 +13,9 @@ import javafx.collections.ObservableList;
  */
 public class Contact {
 
-    private final SimpleStringProperty contactId = new SimpleStringProperty();
-    private final SimpleStringProperty name = new SimpleStringProperty();
+    private final SimpleIntegerProperty contactId = new SimpleIntegerProperty();
+    private final SimpleStringProperty firstName = new SimpleStringProperty();
+    private final SimpleStringProperty lastName = new SimpleStringProperty();
     private final SimpleStringProperty company = new SimpleStringProperty();
     private final SimpleStringProperty address = new SimpleStringProperty();
     private final SimpleStringProperty imagePath = new SimpleStringProperty();
@@ -23,20 +26,28 @@ public class Contact {
     public Contact(){
     }
     
-    public void setContactId(String id){
+    public void setContactId(int id){
         contactId.set(id);
     }
     
-    public SimpleStringProperty getContactIdProperty(){
+    public SimpleIntegerProperty getContactIdProperty(){
         return contactId;
     }
     
-    public void setName(String name){
-        this.name.set(name);
+    public void setFirstName(String name){
+        this.firstName.set(name);
     }
     
-    public SimpleStringProperty getNameProperty(){
-        return name;
+    public SimpleStringProperty getFirstNameProperty(){
+        return firstName;
+    }
+
+    public void setLastName(String name){
+        this.lastName.set(name);
+    }
+
+    public SimpleStringProperty getLastNameProperty(){
+        return lastName;
     }
     
     public void setCompany(String company){

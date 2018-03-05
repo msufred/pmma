@@ -29,7 +29,7 @@ public class ChatForm {
     
     public void setContact(Contact contact){
         mContact = contact;
-        contactLabel.setText(mContact.getNameProperty().get());
+        contactLabel.setText(mContact.getFirstNameProperty().concat(" ").concat(mContact.getLastNameProperty()).get());
     }
     
     public void loadConversations(){

@@ -8,17 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" spacing="4.0" styleClass="background" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <FlowPane prefHeight="56.0" prefWidth="200.0">
-         <children>
-            <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="Add">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-            </MenuButton>
-         </children>
-      </FlowPane>
+      <VBox prefHeight="200.0" prefWidth="300.0" />
    </children>
-</VBox>
+</HBox>

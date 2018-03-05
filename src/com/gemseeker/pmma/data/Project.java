@@ -1,6 +1,9 @@
 package com.gemseeker.pmma.data;
 
 import java.time.LocalDate;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,21 +15,24 @@ import javafx.collections.ObservableList;
  */
 public class Project {
 
+    public static final String FOR_FUNDING = "For Funding";
+    public static final String FUNDED = "Funded";
     public static final String ON_GOING = "On Going";
     public static final String POSTPONED = "Postponed";
     public static final String TERMINATED = "Terminated";
     public static final String FINISHED = "Finished";
     public static final String NOT_DEFINED = "Not Defined";
-    
-    private final SimpleStringProperty id = new SimpleStringProperty();
+
+    // -- actual database column represented as observables
+    private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleStringProperty name = new SimpleStringProperty();
     private final SimpleStringProperty status = new SimpleStringProperty();
-    private final SimpleStringProperty locationId = new SimpleStringProperty();
 
     private LocalDate dateCreated = null;
     private LocalDate dateToFinish = null;
-    
-    private Location location;
+
+    // -- additional observables
+    private SimpleObjectProperty<Location> location = new SimpleObjectProperty<>();
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<History> histories = FXCollections.observableArrayList();;
     private ObservableList<Coordinate> coordinates = FXCollections.observableArrayList();;
@@ -34,21 +40,19 @@ public class Project {
     public Project(){
     }
     
-    public Project(String id, String name, String locationId,
-            LocalDate created, LocalDate toFinish, String status){
+    public Project(int id, String name, LocalDate created, LocalDate toFinish, String status){
         setId(id);
         setName(name);
-        setLocationId(locationId);
         setDateCreated(created);
         setDateToFinish(toFinish);
         setStatus(status);
     }
     
-    public final void setId(String id){
+    public final void setId(int id){
         this.id.set(id);
     }
     
-    public SimpleStringProperty getIdProperty(){
+    public SimpleIntegerProperty getIdProperty(){
         return id;
     }
     
@@ -58,14 +62,6 @@ public class Project {
     
     public SimpleStringProperty getNameProperty(){
         return name;
-    }
-    
-    public final void setLocationId(String locationId){
-        this.locationId.set(locationId);
-    }
-    
-    public SimpleStringProperty getLocationIdProperty(){
-        return locationId;
     }
 
     public final void setDateCreated(LocalDate created){
@@ -100,15 +96,15 @@ public class Project {
     public String toString(){
         return name.get();
     }
-    
-    public void setLocation(Location location){
-        this.location = location;
-    }
-    
-    public Location getLocation(){
+
+    public SimpleObjectProperty<Location> getLocation() {
         return location;
     }
-    
+
+    public void setLocation(Location location) {
+        this.location.set(location);
+    }
+
     public void addContact(Contact contact){
         contacts.add(contact);
     }
@@ -133,7 +129,7 @@ public class Project {
         this.coordinates.setAll(coordinates);
     }
     
-    public ObservableList<Coordinate> getCoodinates(){
+    public ObservableList<Coordinate> getCoordinates(){
         return coordinates;
     }
 }

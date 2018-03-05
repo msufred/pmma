@@ -25,6 +25,37 @@
     font-family: 'Open Sans';
     src: url('OpenSans-Regular.ttf');
 }
+
+/*
+Reference Colors
+
+Grapefruit  --  #ED5565
+            --  #DA4453
+Bittersweet --  #FC6E51
+            --  #E9573F
+Sunflower   --  #FFCE54
+            --  #F6BB42
+Grass       --  #A0D468
+            --  #8CC152
+Mint        --  #48CFAD
+            --  #37BC9B
+Aqua        --  #4FC1E9
+            --  #3BAFDA
+Bluejeans   --  #5D9CEC
+            --  #4A89DC
+Lavander    --  #AC92EC
+            --  #967ADC
+Pink Rose   --  #EC87C0
+            --  #D770AD
+Light gray  --  #F5F7FA
+            --  #E6E9ED
+Medium gray --  #CCD1D9
+            --  #AAB2BD
+Dark gray   --  #656D78
+            --  #434A54
+
+*/
+
 *{
     -on-going-color: #1de9b6;
     -postponed-color: #cccccc;

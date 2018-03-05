@@ -60,7 +60,9 @@ public class Main extends Application {
         MainActivityScreen root = new MainActivityScreen();
         Scene scene = new Scene((Parent) root.getContentView());
         scene.getStylesheets()
-                .addAll(getClass().getResource("css/styles.css").toExternalForm());
+                .addAll(getClass()
+                .getResource("css/styles.css")
+                .toExternalForm());
         
         primaryStage.setScene(scene);
         
@@ -71,8 +73,6 @@ public class Main extends Application {
         if(bounds.getWidth() <= 1280 || bounds.getHeight() <= 768){
             primaryStage.setMaximized(true);
         }
-        
         primaryStage.show();
     }
-
 }

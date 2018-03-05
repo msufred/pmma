@@ -22,21 +22,4 @@ public class SettingsScreen extends ControlledScreen {
         box.getStyleClass().add("paper-white-z1");
         setContentView(box);
     }
-
-    @Override
-    public void onStart() {
-    }
-
-    @Override
-    public void onPause() {
-    }
-
-    @Override
-    public void onResume() {
-    }
-
-    @Override
-    public void onFinish() {
-    }
-
 }

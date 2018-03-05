@@ -18,7 +18,7 @@ public class ProjectUpdate {
     public static final String LEVEL_HIGH = "High";
 
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
-    private final SimpleStringProperty projectId = new SimpleStringProperty();
+    private final SimpleIntegerProperty projectId = new SimpleIntegerProperty();
     private LocalDateTime created;
     private final SimpleStringProperty remarks = new SimpleStringProperty("");
     private final ObservableList<Attachment> attachments = FXCollections.observableArrayList();
@@ -37,11 +37,11 @@ public class ProjectUpdate {
         return id.get();
     }
     
-    public void setProjectId(String projectId){
+    public void setProjectId(int projectId){
         this.projectId.set(projectId);
     }
     
-    public SimpleStringProperty getProjectId(){
+    public SimpleIntegerProperty getProjectId(){
         return projectId;
     }
     

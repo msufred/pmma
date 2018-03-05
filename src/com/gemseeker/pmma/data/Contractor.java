@@ -6,7 +6,7 @@ package com.gemseeker.pmma.data;
  */
 public class Contractor {
 
-    private String id;
+    private int id;
     private String name;
     private String address;
     private String phone;
@@ -16,7 +16,7 @@ public class Contractor {
     
     public Contractor(){}
 
-    public Contractor(String id, String name, String address, String phone,
+    public Contractor(int id, String name, String address, String phone,
             String mobile, String email, String contactPerson){
         setId(id);
         setName(name);
@@ -27,11 +27,11 @@ public class Contractor {
         setContactPerson(contactPerson);
     }
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public final void setId(String id) {
+    public final void setId(int id) {
         this.id = id;
     }
 

@@ -10,8 +10,12 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Optional;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -37,6 +41,8 @@ public class HistoriesScreen extends ControlledScreen {
     
     private final DateTimeFormatter dateFormatter;
     private final DateTimeFormatter timeFormatter;
+
+    private ObservableList<History> histories;
     private FilteredList<History> filteredList;
     
     public HistoriesScreen(){
@@ -59,7 +65,6 @@ public class HistoriesScreen extends ControlledScreen {
                 });
             }
         });
-        
         initComponents();
     }
     
@@ -71,22 +76,29 @@ public class HistoriesScreen extends ControlledScreen {
     
     @Override
     public void onStart() {
-        filteredList = new FilteredList<>(((MainActivityScreen) screenController).getHistories(), hist -> true);
+        super.onStart();
+        histories = FXCollections.observableArrayList();
+        histories.addListener((ListChangeListener<History>) c -> {
+            table.refresh();
+        });
+        filteredList = new FilteredList<>(histories, hist -> true);
         SortedList<History> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(table.comparatorProperty());
         table.setItems(sortedList);
     }
 
     @Override
-    public void onPause() {
-    }
-
-    @Override
     public void onResume() {
-    }
-
-    @Override
-    public void onFinish() {
+        super.onResume();
+        Thread t = new Thread(new Task() {
+            @Override
+            protected Object call() throws Exception {
+                histories.setAll(DBManager.getHistories());
+                return null;
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     @FXML
@@ -103,7 +115,7 @@ public class HistoriesScreen extends ControlledScreen {
                 if(btn.equals(ButtonType.YES)){
                     boolean cleared = DBManager.clearTable(DBUtil.Tables.HISTORIES);
                     if(cleared){
-                        ((MainActivityScreen)screenController).getHistories().clear();
+                        histories.clear();
                     }
                 }
             });
